@@ -726,15 +726,46 @@ public class ListMethodsExample {
 //[Apple, Orange, Pineapple, Watermelon, Banana, Mango, Grapes]
 ```
 
+---
 ### > How does the size of ArrayList grow dynamically? And also state how it is implemented internally?
 
 A resizable array implementation in Java is called ArrayList. Dynamically expanding array lists make it possible to add new elements at any time. The underlying data structure of the ArrayList is an array of the Object class. The ArrayList class in Java has three constructors. There are available readObject and writeObject methods specific to it. The Object Array in an ArrayList is temporary. There are implemented and Serialization-capable versions of RandomAccess, Cloneable, and java.io (that are Marker Interface in Java).
 
-### 44\. Although inheritance is a popular OOPs concept, it is less advantageous than composition. Explain.
+---
+### > Although inheritance is a popular OOPs concept, it is less advantageous than composition. Explain.
 
-A class's testability is improved through composition over inheritance. If a class is comprised of another class, it is simple to create a mock object to simulate the combined class for testing purposes. This privilege is not given by inheritance. Even while Composition and Inheritance both let you reuse code, Inheritance has the drawback of breaking encapsulation. If the function of the subclass depends on the superclass's action, it suddenly becomes vulnerable. Sub-class functionality may be broken without any alteration on the part of the super-class when its behaviour changes.
+Composition, as an alternative to inheritance, offers advantages such as flexibility, code reusability, encapsulation, and reduced coupling. It allows for the assembly of different objects to achieve desired behaviors and promotes a more modular and maintainable code structure. While inheritance is still valuable in certain scenarios, composition provides greater flexibility and adaptability in object-oriented programming.
 
-### 45\. What are Composition and Aggregation? State the difference.
+```java
+// Composition Example
+class Engine {
+    public void start() {
+        System.out.println("Engine started.");
+    }
+}
+
+class Car {
+    private Engine engine;
+
+    public Car() {
+        this.engine = new Engine();
+    }
+
+    public void startEngine() {
+        engine.start();
+    }
+}
+
+public class CompositionExample {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.startEngine();
+    }
+}
+```
+
+---
+### > What are Composition and Aggregation? State the difference.
 
 Aggregation (HAS-A) and composition are its two forms (Belongs-to). In contrast to composition, which has a significant correlation, the aggregation has a very modest association. Aggregation can be thought of as a more confined version of the composition. Since all compositions are aggregates but not all aggregates are compositions, aggregate can be thought of as the superset of composition.
 
