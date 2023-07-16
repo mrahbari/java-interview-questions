@@ -515,70 +515,218 @@ A programme is a non-active entity that includes the collection of codes necessa
 ---
 ### > What are the differences between constructor and method of a class in Java?
 
+In summary, constructors are special methods used for object initialization, while methods define the behavior and actions of objects. Constructors are called automatically when creating an object, whereas methods are invoked explicitly by the programmer.
+
 Initializing the state of the object is done by constructors. A function Object () { \[native code\] }, like methods, contains a group of statements (or instructions) that are carried out when an object is created. A method is a group of statements that work together to complete a certain task and return the outcome to the caller. A method has the option of working without returning anything.
 
 ---
-### 31\. Which among String or String Buffer should be preferred when there are a lot of updates required to be done in the data?
+### > Which among String or String Buffer should be preferred when there are a lot of updates required to be done in the data?
 
 Because StringBuilder is quicker than StringBuffer, it is advised to utilize it wherever possible. However, StringBuffer objects are the best choice if thread safety is required.
 
-### 32\. What happens if the static modifier is not included in the main method signature in Java?
+---
+### > What happens if the static modifier is not included in the main method signature in Java?
 
 The main function is called by the JVM even before the objects are created, thus even if the code correctly compiles, there will still be an error at runtime.
 
-### 33\. Can we make the main() thread a daemon thread?
+---
+### > Can we make the main() thread a daemon thread?
 
-This technique designates whether the active thread is a user thread or a daemon thread. For instance, tU.setDaemon(true) would convert a user thread named tU into a daemon thread. On the other side, executing tD.setDaemon(false) would convert a Daemon thread, tD, into a user thread.
+Yes, This technique designates whether the active thread is a user thread or a daemon thread. For instance, tU.setDaemon(true) would convert a user thread named tU into a daemon thread. On the other side, executing tD.setDaemon(false) would convert a Daemon thread, tD, into a user thread.
 
-### 34\. What happens if there are multiple main methods inside one class in Java?
+It is possible to make the `main()` thread a daemon thread in Java. A daemon thread is a background thread that runs in the background and does not prevent the program from exiting if there are no non-daemon threads running.
+Here's a sample code snippet that demonstrates how to make the `main()` thread a daemon thread:
+
+```java
+public class MainThreadExample {
+    public static void main(String[] args) {
+        Thread mainThread = Thread.currentThread();
+        mainThread.setDaemon(true); // Set the main thread as a daemon thread
+
+        // Rest of your program logic...
+
+        // Example code to keep the program running for demonstration purposes
+        try {
+            Thread.sleep(3000); // Sleep for 3 seconds to allow other threads to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Exiting main thread...");
+    }
+}
+```
+
+In the above code, the `Thread.currentThread()` method returns the reference to the main thread. By calling the `setDaemon(true)` method on the main thread, we mark it as a daemon thread. Any code executed after setting the daemon flag will run in the context of the daemon thread.
+
+Please note that setting the `main()` thread as a daemon thread should be done early in the program, ideally before creating any other threads. Once a thread has been started, you cannot change its daemon status.
+
+---
+### > What happens if there are multiple main methods inside one class in Java?
 
 There is no limit to the number of major approaches you can use. Overloading is the ability to have main methods with different signatures than main (String \[\]), and the JVM will disregard those main methods.
 
-### 35\. How does an exception propagate in the code?
+---
+### > How does an exception propagate in the code?
 
-In the event that an exception is not caught, it is initially thrown from the top of the stack and then moves down the call stack to the preceding method. The runtime system looks for a way to handle an exception that a method throws. The ordered list of methods that were called to get to the method where the error occurred is the collection of potential "somethings" that can be used to manage the exception. The call stack is the list of methods, and exception propagation is the search technique.
+Exceptions in Java propagate through the code by being thrown from a method and moving up the call stack until they are caught by an appropriate exception handler. If an exception is not caught, it becomes an uncaught exception, which can lead to the termination of the program.
 
-### 36\. How do exceptions affect the program if it doesn't handle them?
+---
+### > How do exceptions affect the program if it doesn't handle them?
 
-If you don't deal with an exception once it occurs, the programme will end abruptly and the code after the line where the exception occurred won't run.
+If you don't handle an exception when it happens, the program will abruptly stop, and any code following the line where the exception occurred will not be executed.
 
-### 37\. Is it mandatory for a catch block to be followed after a try block?
+---
+### > Is it mandatory for a catch block to be followed after a try block?
 
-Each attempt block does not necessarily have to be followed by a catch block. Either a catch block or a final block ought to come after it. Additionally, any exceptions that are expected to be thrown should be mentioned in the method's throws clause.
+Yes, in Java, if you use a `try` block to handle exceptions, it is mandatory to have at least one `catch` block or a `finally` block (or both) following the `try` block. This ensures that exceptions thrown within the `try` block can be caught and handled appropriately.
 
-### 38\. Can you call a constructor of a class inside another constructor?
+The `catch` block is used to specify the type of exception to catch and the corresponding code to handle the exception. Multiple `catch` blocks can be used to handle different types of exceptions.
 
-Yes, a class may include any number of constructors, and each function Object () {\[native code\] } may call the others using the this() function Object() { \[native code\] } call function \[please do not mix the this() function Object() { \[native code\] } call function with this keyword\]. The constructor's first line should be either this () or this(args). Overloading of constructors is what this is called.
+Alternatively, you can use a `finally` block without any `catch` block. The `finally` block is executed regardless of whether an exception occurred or not. It is commonly used to perform cleanup operations or release resources.
 
-### 39\. Contiguous memory locations are usually used for storing actual values in an array but not in ArrayList. Explain.
+In summary, to properly handle exceptions in Java, a `try` block must be followed by either a `catch` block or a `finally` block (or both).
+
+---
+### > Can you call a constructor of a class inside another constructor?
+
+Yes, it is possible to call a constructor of a class inside another constructor in Java. This process is known as constructor chaining. It allows code reuse and enables different constructors to initialize the object with various parameter values.
+```java
+public class MyClass {
+    private int value;
+
+    public MyClass() {
+        this(10); // Calling another constructor of the same class with a default value
+    }
+
+    public MyClass(int value) {
+        this.value = value;
+        System.out.println("Constructor called with value: " + value);
+    }
+
+    public static void main(String[] args) {
+        MyClass obj1 = new MyClass(); // Calling the default constructor
+        MyClass obj2 = new MyClass(20); // Calling the parameterized constructor
+    }
+}
+
+//Constructor called with value: 10
+//Constructor called with value: 20
+```
+
+---
+### > Contiguous memory locations are usually used for storing actual values in an array but not in ArrayList. Explain.
 
 Primitive data types like int, float, and others are typically present in an array. In such circumstances, the array immediately saves these elements at contiguous memory regions. While an ArrayList does not contain primitive data types. Instead of the actual object, an ArrayList includes the references to the objects' many locations in memory. The objects are not kept in consecutive memory regions because of this.
 
-### 40\. Why does the java array index start with 0?
+In Java, arrays use contiguous memory locations to store actual values, whereas `ArrayList` does not rely on contiguous memory allocation. Instead, `ArrayList` dynamically manages an underlying array to store its elements.
+
+Here's a sample code that demonstrates the difference in memory allocation between an array and an `ArrayList`:
+
+```java
+import java.util.ArrayList;
+
+public class MemoryAllocationExample {
+    public static void main(String[] args) {
+        // Array - Contiguous memory allocation
+        int[] array = new int[5]; // Allocate an array of size 5
+        array[0] = 10;
+        array[1] = 20;
+        array[2] = 30;
+        array[3] = 40;
+        array[4] = 50;
+
+        // ArrayList - Dynamic memory allocation
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(10);
+        arrayList.add(20);
+        arrayList.add(30);
+        arrayList.add(40);
+        arrayList.add(50);
+
+        // Accessing elements
+        System.out.println("Array:");
+        for (int i = 0; i < array.length; i++) {
+            System.out.println(array[i]);
+        }
+
+        System.out.println("\nArrayList:");
+        for (int i = 0; i < arrayList.size(); i++) {
+            System.out.println(arrayList.get(i));
+        }
+    }
+}
+```
+
+In the above code, an array of `int` is allocated with a fixed size of 5. The elements are assigned specific values using index-based access.
+
+On the other hand, an `ArrayList` of `Integer` is created without specifying an initial size. It dynamically resizes its underlying array as elements are added. Elements are added to the `ArrayList` using the `add()` method.
+
+The code then demonstrates accessing elements from both the array and the `ArrayList` using loops. The output displays the values stored in each collection.
+
+Note: In practice, the `ArrayList` implementation in Java handles the resizing of the underlying array automatically, providing a convenient way to store and manipulate collections of objects without worrying about contiguous memory allocation.
+
+---
+### > Why does the java array index start with 0?
+
+The convention of starting array indices at 0 in Java and many other programming languages is rooted in the implementation of arrays using pointer arithmetic. It simplifies memory addressing and calculations by aligning the offset of the first element with 0. Starting at 0 also provides consistency and intuitiveness in array manipulation and indexing, as the index directly corresponds to the position of an element in the array. However, it's worth noting that there are languages that deviate from this convention and allow different starting indices.
 
 The distance from the array's beginning is just an offset. There is no distance because the first element is at the beginning of the array. Consequently, the offset is 0.
 
-### 41\. Why is the remove method faster in the linked list than in an array?
+---
+### > Why is the remove method faster in the linked list than in an array?
 
 Because there is no background scaling of an array, insertion, addition, and removal operations are quicker with a LinkedList. Only references in adjacent items need to update when a new item is added in the middle of the list.
 
-### 42\. How many overloaded add() and addAll() methods are available in the List interface? Describe the need and uses.
+---
+### > How many overloaded add() and addAll() methods are available in the List interface? Describe the need and uses.
 
 List is an interface in the Java Collections Framework. The add() and addAll() methods      are the main methods at the List interface. The add() method is used to add an element to the list, while the addAll() method is used to add a collection of elements to the list.
 
-The List interface contains two overloaded versions of the add() method:
+***The List interface contains two overloaded versions of the add() method:***
 
 The first add() method accepts a single argument of type E, the element to be added to the list.
-
 The second add() method accepts a variable number of arguments of type E, which are the elements to be added to the list.
 
-The List interface also contains two overloaded versions of the addAll() method:
+***The List interface also contains two overloaded versions of the addAll() method:***
 
 The first addAll() method accepts a single argument of type Collection<? Extends E>, which is the collection of elements to be added to the list.
 
 The second addAll() method accepts a variable number of arguments of type E, which are the elements to be added to the list.
 
-### 43\. How does the size of ArrayList grow dynamically? And also state how it is implemented internally?
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class ListMethodsExample {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+
+        // add()
+        list.add("Apple");
+        list.add("Banana");
+
+        // add(int index, E element)
+        list.add(1, "Orange");
+
+        // addAll(Collection<? extends E> collection)
+        List<String> fruits = Arrays.asList("Mango", "Grapes");
+        list.addAll(fruits);
+
+        // addAll(int index, Collection<? extends E> collection)
+        List<String> moreFruits = Arrays.asList("Pineapple", "Watermelon");
+        list.addAll(2, moreFruits);
+
+        // Print the list
+        System.out.println(list);
+    }
+}
+
+//[Apple, Orange, Pineapple, Watermelon, Banana, Mango, Grapes]
+```
+
+### > How does the size of ArrayList grow dynamically? And also state how it is implemented internally?
 
 A resizable array implementation in Java is called ArrayList. Dynamically expanding array lists make it possible to add new elements at any time. The underlying data structure of the ArrayList is an array of the Object class. The ArrayList class in Java has three constructors. There are available readObject and writeObject methods specific to it. The Object Array in an ArrayList is temporary. There are implemented and Serialization-capable versions of RandomAccess, Cloneable, and java.io (that are Marker Interface in Java).
 
