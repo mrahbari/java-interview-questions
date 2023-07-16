@@ -392,6 +392,7 @@ public class LoggingExample {
     }
 }
 ```
+By using the singleton pattern, all parts of your application can use the same instance of the Logger class, ensuring consistent logging behavior and avoiding the need to pass logger instances around manually.
 
 ---
 ### > Define package in Java.
@@ -485,20 +486,23 @@ public final class FinalClassExample {
 //     // Subclass implementation
 // }
 
-
-### 25\. What happens when the main() isn't declared as static?
+---
+### > What happens when the main() isn't declared as static?
 
 When the main method is not declared as static, then the program may be compiled correctly but ends up with a severe ambiguity and throws a run time error that reads "NoSuchMethodError."
 
-### 26\. Why is Java a platform independent language?
+---
+### > Why is Java a platform independent language?
 
-One of the most well-known and widely used programming languages is Java. It is a programming language that is independent of platforms. Java doesn't demand that the complete programme be rewritten for every possible platform. The Java Virtual Machine and Java Bytecode are used to support platform independence. Any JVM operating system can run this platform-neutral byte code. The application is run after JVM translates the byte code into machine code. Because Java programmes can operate on numerous systems without having to be individually rewritten for each platform, the language is referred to as "Write Once, Run Anywhere" (WORA).
+Java is platform-independent because it uses bytecode and a virtual machine (JVM) to execute code, allowing it to run on any platform with a compatible JVM. The "Write Once, Run Anywhere (WORA)" principle and platform-specific JVM implementations enable Java code to be executed on different operating systems without modification. Java's standard APIs and platform-independent language features further contribute to its portability.
 
-### 27\. Why is the main method static in Java?
+---
+### > Why is the main method static in Java?
 
 Java's main() function is static by default, allowing the compiler to call it either before or after creating a class object. The main () function is where the compiler begins programme execution in every Java programme. Thus, the main () method needs to be called by the compiler. If the main () method is permitted to be non-static, the JVM must instantiate its class when calling the function. 
 
-### 28\. What part of memory - Stack or Heap - is cleaned in the garbage collection process?
+---
+### > What part of memory - Stack or Heap - is cleaned in the garbage collection process?
 
 On Heap memory, garbage collection is employed to release the memory used by objects with no references. Every object created in the Heap space has access to the entire application and may be referred to from anywhere.
 
