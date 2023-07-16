@@ -485,6 +485,7 @@ public final class FinalClassExample {
 // public class Subclass extends FinalClassExample {
 //     // Subclass implementation
 // }
+```
 
 ---
 ### > What happens when the main() isn't declared as static?
@@ -506,14 +507,17 @@ Java's main() function is static by default, allowing the compiler to call it ei
 
 On Heap memory, garbage collection is employed to release the memory used by objects with no references. Every object created in the Heap space has access to the entire application and may be referred to from anywhere.
 
-### 29\. What is the difference between the program and the process?
+---
+### > What is the difference between the program and the process?
 
 A programme is a non-active entity that includes the collection of codes necessary to carry out a specific operation. When a programme is run, an active instance of the programme called a process is launched. A process is begun by a programme once it has been run. The process carries out the program's specified instructions.
 
-### 30\. What are the differences between constructor and method of a class in Java?
+---
+### > What are the differences between constructor and method of a class in Java?
 
 Initializing the state of the object is done by constructors. A function Object () { \[native code\] }, like methods, contains a group of statements (or instructions) that are carried out when an object is created. A method is a group of statements that work together to complete a certain task and return the outcome to the caller. A method has the option of working without returning anything.
 
+---
 ### 31\. Which among String or String Buffer should be preferred when there are a lot of updates required to be done in the data?
 
 Because StringBuilder is quicker than StringBuffer, it is advised to utilize it wherever possible. However, StringBuffer objects are the best choice if thread safety is required.
