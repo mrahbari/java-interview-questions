@@ -217,26 +217,139 @@ public class CopyConstructorExample {
 }
 ```
 
-### 13\. What is a Marker Interface?
+---
+### > What is a Marker Interface?
 
-An empty [interface in Java](https://www.simplilearn.com/tutorials/java-tutorial/java-interface "interface in Java") is referred to as a Marker interface. Serializable and Cloneable are some famous examples of Marker Interface. 
+An empty interface in Java is referred to as a Marker interface. Serializable and Cloneable are some famous examples of Marker Interface. 
+```java
+// Marker Interface
+interface Printable {
+}
 
-### 14\. What is Object Cloning?
+// Class implementing the Marker Interface
+class Book implements Printable {
+    ...
+}
+
+// Main class to demonstrate the Marker Interface
+public class MarkerInterfaceExample {
+    public static void main(String[] args) {
+        Book book = new Book("Sample Book");
+        
+        if (book instanceof Printable) {
+            System.out.println("Book is printable.");
+        } else {
+            System.out.println("Book is not printable.");
+        }
+    }
+}
+```
+
+---
+### > What is Object Cloning?
 
 An ability to recreate an object entirely similar to an existing object is known as Object Cloning in Java. Java provides a clone() method to clone a current object offering the same functionality as the original object.
+```java
+// Class to be cloned
+class Person implements Cloneable {
+    private String name;
+    private int age;
+    
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    // Override the clone() method
+    @Override
+    public Person clone() throws CloneNotSupportedException {
+        return (Person) super.clone();
+    }
+}
 
-### 15\. Can Java be said to be the complete object-oriented programming language
+// Main class to demonstrate object cloning
+public class ObjectCloningExample {
+    public static void main(String[] args) {
+        try {
+            // Create an object to be cloned
+            Person person1 = new Person("John Doe", 25);
+            
+            // Perform cloning
+            Person person2 = person1.clone();
+            
+            // Modify the cloned object
+            person2.setName("Jane Smith");
+            person2.setAge(30);
+            
+            // Display information of both objects
+            System.out.println("Original Person: " + person1.getName() + ", Age: " + person1.getAge());
+            System.out.println("Cloned Person: " + person2.getName() + ", Age: " + person2.getAge());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+---
+### > Can Java be said to be the complete object-oriented programming language
 
 No, Java cannot be treated as a complete object-oriented programming language.
 
-### 16\. What is an object-oriented paradigm?
+---
+### > What is an object-oriented paradigm?
 
 A Paradigm that is based on the concepts of “Objects.” It contains data and code. Data that is in the form of fields, and regulation, that is in the form of procedures. The exciting feature of this paradigm is that the object’s procedures can access and often modify the data fields themselves.
 
-### 17\. Define Wrapper Classes in Java.
+---
+### > Define Wrapper Classes in Java.
 
 In Java, when you declare primitive datatypes, then Wrapper classes are responsible for converting them into objects(Reference types). 
+```java
+public class WrapperClassExample {
+    public static void main(String[] args) {
+        // Creating wrapper objects
+        Integer number1 = new Integer(42);
+        Double number2 = new Double(3.14);
+        Boolean flag = new Boolean(true);
+        Character ch = new Character('A');
 
+        // Using wrapper objects
+        System.out.println("Number 1: " + number1);
+        System.out.println("Number 2: " + number2);
+        System.out.println("Flag: " + flag);
+        System.out.println("Character: " + ch);
+
+        // Converting wrapper objects to primitive values
+        int value1 = number1.intValue();
+        double value2 = number2.doubleValue();
+        boolean value3 = flag.booleanValue();
+        char value4 = ch.charValue();
+
+        // Using primitive values
+        System.out.println("Value 1: " + value1);
+        System.out.println("Value 2: " + value2);
+        System.out.println("Value 3: " + value3);
+        System.out.println("Value 4: " + value4);
+
+        // Using autoboxing and unboxing
+        Integer number3 = 10; // autoboxing
+        int value5 = number3; // unboxing
+
+        System.out.println("Number 3: " + number3);
+        System.out.println("Value 5: " + value5);
+    }
+}
+
+```
 ### 18\. What is a singleton class in Java? And How to implement a singleton class?
 
 A class that can possess only one object at a time is called a singleton class. To implement a singleton class given steps are to be followed:
