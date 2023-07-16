@@ -350,26 +350,92 @@ public class WrapperClassExample {
 }
 
 ```
-### 18\. What is a singleton class in Java? And How to implement a singleton class?
+### > What is a singleton class in Java? And How to implement a singleton class?
 
 A class that can possess only one object at a time is called a singleton class. To implement a singleton class given steps are to be followed:
 
 1.  Make sure that the class has only one object
 2.  Give global access to that object
 
-### 19\. Define package in Java.
+```java
+public class Logger {
+    private static Logger instance;
+    
+    // Private constructor to prevent direct instantiation
+    private Logger() {
+    }
+    
+    // Static method to access the instance
+    public static Logger getInstance() {
+        if (instance == null) {
+            instance = new Logger();
+        }
+        return instance;
+    }
+    
+    // Logging method
+    public void log(String message) {
+        System.out.println("[LOG] " + message);
+    }
+    
+    // Other logging-related methods and implementation details
+}
+
+
+//Usage:
+public class LoggingExample {
+    public static void main(String[] args) {
+        Logger.getInstance().log("Starting the application...");
+        // Perform application logic
+        
+        Logger.getInstance().log("Application execution completed.");
+    }
+}
+```
+
+---
+### > Define package in Java.
 
 The package is a collective bundle of classes and interfaces and the necessary libraries and JAR files. The use of packages helps in code reusability.
-
-### 20\. Can you implement pointers in a Java Program?
+```java
+package com.example.myproject;
+```
+---
+### > Can you implement pointers in a Java Program?
 
 Java Virtual Machine takes care of memory management implicitly. Java's primary motto was to keep programming simple. So, accessing memory directly through pointers is not a recommended action. Hence, pointers are eliminated in Java. 
 
-### 21\. Differentiate between instance and local variables.
+---
+### > Differentiate between instance and local variables.
 
-For instance, variables are declared inside a class, and the [scope of variables in javascript](https://www.simplilearn.com/tutorials/javascript-tutorial/scope-of-variables-in-javascript "scope of variables in javascript") is limited to only a specific object.
+For instance, variables are declared inside a class, and the scope of variables in java scope of variables in java is limited to only a specific object.
 
 A local variable can be anywhere inside a method or a specific block of code. Also, the scope is limited to the code segment where the variable is declared.  
+
+In summary, instance variables are associated with objects and have class-level scope, whereas local variables are limited to specific methods, constructors, or blocks and have a shorter lifespan. Instance variables store state or data unique to each object, while local variables store temporary data within a specific method, constructor, or block.
+```java
+public class VariableExample {
+    // Instance variable
+    private int instanceVariable;
+    
+    public void instanceVariableDemo() {
+        // Local variable
+        int localVariable = 10;
+        
+        System.out.println("Instance variable: " + instanceVariable);
+        System.out.println("Local variable: " + localVariable);
+    }
+    
+    public static void main(String[] args) {
+        VariableExample obj = new VariableExample();
+        obj.instanceVariableDemo();
+    }
+}
+
+//Instance variable: 0
+//Local variable: 10
+```
+
 
 ### 22\. Explain Java String Pool.
 
