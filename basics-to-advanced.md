@@ -436,18 +436,55 @@ public class VariableExample {
 //Local variable: 10
 ```
 
-
-### 22\. Explain Java String Pool.
+---
+### > Explain Java String Pool.
 
 A collection of strings in Java's Heap memory is referred to as Java String Pool. In case you try to create a new string object, JVM first checks for the presence of the object in the pool. If available, the same object reference is shared with the variable, else a new object is created.
 
-### 23\. What is an Exception?
+---
+### > What is an Exception?
 
-An [Exception handling in Java](https://www.simplilearn.com/tutorials/java-tutorial/exception-handling-in-java "Exception handling in Java") is considered an unexpected event that can disrupt the program's normal flow. These events can be fixed through the process of Exception Handling.
+An Exception handling in Java is considered an unexpected event that can disrupt the program's normal flow. These events can be fixed through the process of Exception Handling.
 
-### 24\. What is the final keyword in Java?
-
+---
+### > What is the final keyword in Java?
+The final keyword ensures that certain entities in Java remain unchanged or unextendable, providing immutability and preventing unintended modifications or overrides.
 The term final is a predefined word in Java that is used while declaring values to variables. When a value is declared using the final keyword, then the variable's value remains constant throughout the program's execution.
+
+```java
+public class FinalVariableExample {
+    public static void main(String[] args) {
+        final int constantValue = 10;
+        // constantValue = 20; // This will cause a compilation error
+        System.out.println("Constant Value: " + constantValue);
+    }
+}
+```
+
+```java
+public class FinalMethodExample {
+    public final void finalMethod() {
+        System.out.println("Final method");
+    }
+}
+
+public class Subclass extends FinalMethodExample {
+    // Cannot override final method
+    // public void finalMethod() {
+    //     System.out.println("Overridden method");
+    // }
+}
+```
+```java
+public final class FinalClassExample {
+    // Class implementation
+}
+
+// Cannot extend final class
+// public class Subclass extends FinalClassExample {
+//     // Subclass implementation
+// }
+
 
 ### 25\. What happens when the main() isn't declared as static?
 
