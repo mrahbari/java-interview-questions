@@ -681,7 +681,8 @@ Because there is no background scaling of an array, insertion, addition, and rem
 ---
 ### > How many overloaded add() and addAll() methods are available in the List interface? Describe the need and uses.
 
-List is an interface in the Java Collections Framework. The add() and addAll() methods      are the main methods at the List interface. The add() method is used to add an element to the list, while the addAll() method is used to add a collection of elements to the list.
+List is an interface in the Java Collections Framework. The add() and addAll() methods are the main methods at the List interface. 
+The add() method is used to add an element to the list, while the addAll() method is used to add a collection of elements to the list.
 
 ***The List interface contains two overloaded versions of the add() method:***
 
@@ -729,12 +730,17 @@ public class ListMethodsExample {
 ---
 ### > How does the size of ArrayList grow dynamically? And also state how it is implemented internally?
 
-A resizable array implementation in Java is called ArrayList. Dynamically expanding array lists make it possible to add new elements at any time. The underlying data structure of the ArrayList is an array of the Object class. The ArrayList class in Java has three constructors. There are available readObject and writeObject methods specific to it. The Object Array in an ArrayList is temporary. There are implemented and Serialization-capable versions of RandomAccess, Cloneable, and java.io (that are Marker Interface in Java).
+A resizable array implementation in Java is called ArrayList. Dynamically expanding array lists make it possible to add new elements at any time. 
+The underlying data structure of the ArrayList is an array of the Object class. The ArrayList class in Java has three constructors. 
+There are available readObject and writeObject methods specific to it. The Object Array in an ArrayList is temporary. 
+There are implemented and Serialization-capable versions of RandomAccess, Cloneable, and java.io (that are Marker Interface in Java).
 
 ---
 ### > Although inheritance is a popular OOPs concept, it is less advantageous than composition. Explain.
 
-Composition, as an alternative to inheritance, offers advantages such as flexibility, code reusability, encapsulation, and reduced coupling. It allows for the assembly of different objects to achieve desired behaviors and promotes a more modular and maintainable code structure. While inheritance is still valuable in certain scenarios, composition provides greater flexibility and adaptability in object-oriented programming.
+Composition, as an alternative to inheritance, offers advantages such as flexibility, code reusability, encapsulation, and reduced coupling. 
+It allows for the assembly of different objects to achieve desired behaviors and promotes a more modular and maintainable code structure. 
+While inheritance is still valuable in certain scenarios, composition provides greater flexibility and adaptability in object-oriented programming.
 
 ```java
 // Composition Example
@@ -767,29 +773,129 @@ public class CompositionExample {
 ---
 ### > What are Composition and Aggregation? State the difference.
 
-Aggregation (HAS-A) and composition are its two forms (Belongs-to). In contrast to composition, which has a significant correlation, the aggregation has a very modest association. Aggregation can be thought of as a more confined version of the composition. Since all compositions are aggregates but not all aggregates are compositions, aggregate can be thought of as the superset of composition.
+Aggregation (HAS-A) and composition are its two forms (Belongs-to). In contrast to composition, which has a significant correlation, the aggregation has a very modest association. 
+Aggregation can be thought of as a more confined version of the composition. Since all compositions are aggregates but not all aggregates are compositions, aggregate can be thought of as the superset of composition.
 
-### 46\. How is the creation of a String using new() different from that of a literal?
+---
+### > How is the creation of a String using new() different from that of a literal?
 
-The new () operator always produces a new object in heap memory when creating a String object. The String pool may return an existing object if we build an object using the String literal syntax, such as "Baeldung," on the other hand.
+The new () operator always produces a new object in heap memory when creating a String object. 
+The String pool may return an existing object if we build an object using the String literal syntax, such as "Baeldung," on the other hand.
 
-### 47\. How is the ‘new' operator different from the ‘newInstance()' operator in java?
+---
+### > How is the ‘new' operator different from the ‘newInstance()' operator in java?
 
 Both the new operator and the newInstance() method are used to create objects in Java. If we already know the kind of object to create, we can use the new operator; however, if the type of object to create is supplied to us at runtime, we must use the newInstance() function.
+```java
+// Example class
+class Person {
+    private String name;
+    
+    public Person(String name) {
+        this.name = name;
+    }
+    
+    public void introduce() {
+        System.out.println("Hello, my name is " + name);
+    }
+}
 
-### 48\. Is exceeding the memory limit possible in a program despite having a garbage collector?
+public class Main {
+    public static void main(String[] args) {
+        // Creating an instance using the new operator
+        Person person1 = new Person("John");
+        person1.introduce();  // Output: Hello, my name is John
+        
+        try {
+            // Creating an instance using newInstance() method
+            Class<?> personClass = Person.class;
+            Person person2 = (Person) personClass.newInstance();
+            person2.introduce();  // Output: Hello, my name is null (default value)
+        } catch (InstantiationException | IllegalAccessException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+```
 
-Yes, even with a garbage collector in place, the programme could still run out of memory. Garbage collection aids in identifying and removing programme objects that are no longer needed in order to release the resources they use. When an object in a programme cannot be reached, trash collection is executed with respect to that object. If there is not enough memory available to create new objects, a garbage collector is used to free up memory for things that have been removed from the scope. When the amount of memory released is insufficient for the creation of new objects, the program's memory limit is exceeded.
+---
+### > Is exceeding the memory limit possible in a program despite having a garbage collector?
 
-### 49\. Why is synchronization necessary? Explain with the help of a relevant example.
+Yes, even with a garbage collector in place, the programme could still run out of memory. Garbage collection aids in identifying and removing programme objects that are no longer needed in order to release the resources they use. 
+When an object in a programme cannot be reached, trash collection is executed with respect to that object. 
+If there is not enough memory available to create new objects, a garbage collector is used to free up memory for things that have been removed from the scope. 
+When the amount of memory released is insufficient for the creation of new objects, the program's memory limit is exceeded.
 
-Multiple threads trying to access the same resources in a multi-threaded software may frequently result in unexpected and incorrect outcomes. Therefore, it must be ensured through some form of synchronization that only one thread can access the resource at any given time. Java offers a method for setting up threads and synchronizing their operations with the aid of synchronized blocks. The synchronized keyword in Java is used to identify synchronized blocks. In Java, a synchronized block is one that is tied to an object. Only one thread can be running at a time inside synchronized blocks since they are all synchronized on the same object. Until the thread inside the synchronized block exits the block, all other threads trying to enter the block are blocked. 
+---
+### > Why is synchronization necessary? Explain with the help of a relevant example.
 
-### 50\. Define System.out.println().
+Multiple threads trying to access the same resources in a multi-threaded software may frequently result in unexpected and incorrect outcomes. 
+Therefore, it must be ensured through some form of synchronization that only one thread can access the resource at any given time. 
+Java offers a method for setting up threads and synchronizing their operations with the aid of synchronized blocks. 
+The synchronized keyword in Java is used to identify synchronized blocks. 
+In Java, a synchronized block is one that is tied to an object. Only one thread can be running at a time inside synchronized blocks since they are all synchronized on the same object. 
+Until the thread inside the synchronized block exits the block, all other threads trying to enter the block are blocked. 
 
-System.out.println() in Java outputs the argument that was supplied to it. On the monitor, the println() method displays the findings. An objectname is typically used to call a method.
 
-### 51\. Can you explain the Java thread lifecycle?
+```java
+class Counter {
+    private int count = 0;
+
+    public synchronized void increment() {
+        count++;
+    }
+
+    public synchronized int getCount() {
+        return count;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Counter counter = new Counter();
+
+        // Create multiple threads to increment the counter
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        // Start the threads
+        thread1.start();
+        thread2.start();
+
+        // Wait for the threads to finish
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Print the final count
+        System.out.println("Final count: " + counter.getCount());
+    }
+}
+```
+
+In this example, the `Counter` class has two synchronized methods: `increment()` and `getCount()`. 
+These methods are synchronized using the `synchronized` keyword, which ensures that only one thread can execute the synchronized block at a time.
+
+We create two threads, `thread1` and `thread2`, that concurrently increment the counter by calling the `increment()` method. 
+The `join()` method is used to wait for the threads to finish their execution before printing the final count.
+
+By using synchronization, we guarantee that the counter is incremented correctly and avoid potential race conditions that could occur if multiple threads accessed and modified the counter concurrently without synchronization.
+
+
+---
+### > Can you explain the Java thread lifecycle?
 
 A thread can be in any of the following states in Java. These are the states:
 
@@ -799,49 +905,189 @@ A thread can be in any of the following states in Java. These are the states:
 *   Timed waiting: When we use the sleep () method on a particular thread, we are actually engaging in timed waiting. The thread enters the timed wait state using the sleep () function. The thread awakens when the allotted time has passed and resumes execution where it left off.
 *   Termination: A thread that has been terminated means it is no longer active in the system. In other words, the thread is inactive and cannot be revived (made active again after being killed).
 
-### 52\. What could be the tradeoff between the usage of an unordered array versus the usage of an ordered array?
+---
+### > What could be the tradeoff between the usage of an unordered array versus the usage of an ordered array?
 
-When opposed to an unordered array, which has a time complexity of O, an ordered array's search times have a time complexity of O(log n) (n). Due to the need to shift the elements with higher values to create room for the new member, an ordered array has a temporal complexity of O(n) during the insertion process. Instead, an unordered array's insertion operation requires a constant O amount of time (1).
+When opposed to an unordered array, which has a time complexity of O, an ordered array's search times have a time complexity of O(log n) (n). 
+Due to the need to shift the elements with higher values to create room for the new member, an ordered array has a temporal complexity of O(n) during the insertion process. 
+Instead, an unordered array's insertion operation requires a constant O amount of time (1).
 
-### 53\. Is it possible to import the same class or package twice in Java and what happens to it during runtime?
+---
+### > Is it possible to import the same class or package twice in Java and what happens to it during runtime?
 
-The same package or class may be imported more than once. Neither the JVM nor the compiler raise an objection. Even if you import the same class several times, the JVM will only internally load it once.
+The same package or class may be imported more than once. Neither the JVM nor the compiler raise an objection. 
+Even if you import the same class several times, the JVM will only internally load it once.
 
-### 54\. In case a package has sub packages, will it suffice to import only the main package? e.g. Does importing of com.myMainPackage.\* also import com.myMainPackage.mySubPackage.\*?
+---
+### > In case a package has sub packages, will it suffice to import only the main package? e.g. Does importing of com.myMainPackage.\* also import com.myMainPackage.mySubPackage.\*?
 
 Sub-packages won't be imported when a package is imported. When you import a package, all of its classes and interfaces—with the exception of those from its sub-packages—are imported.
+```java
+package com.example.application; // Main package
 
-### 55\. Will the final block be executed if the code System.exit(0) is written at the end of the try block?
+// Import statements
+
+public class MainApplication {
+    // Main class code
+}
+
+package com.example.application.models; // Sub-package
+
+// Import statements
+
+public class UserModel {
+    // User model code
+}
+
+package com.example.application.controllers; // Sub-package
+
+// Import statements
+
+public class UserController {
+    // User controller code
+}
+
+package com.example.application.utils; // Sub-package
+
+// Import statements
+
+public class StringUtils {
+    // String utility code
+}
+```
+
+---
+### > Will the final block be executed if the code System.exit(0) is written at the end of the try block?
 
 The system is established as the last line to be run, after which nothing will happen, therefore both the catch and finally blocks are essentially ignored.
 
-### 56\. Explain the term “Double Brace Initialisation” in Java?
+---
+### > Explain the term “Double Brace initialization” in Java?
 
 The outer braces of the double-brace initialization construct an anonymous class that is descended from the provided class and gives an initializer block for that class (the inner braces).
 
-### 57\. Why is it said that the length() method of String class doesn't return accurate results?
+this technique is not widely recommended in professional codebases due to potential memory leaks and performance overhead caused by creating unnecessary inner classes. It's generally considered a best practice to use regular initialization instead, but understanding the concept can still be useful. Here's a sample of Double Brace Initialization:
+
+```java
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class DoubleBraceInitializationSample {
+
+    public static void main(String[] args) {
+        // Double brace initialization for ArrayList
+        List<String> stringList = new ArrayList<String>() {{
+            add("Hello");
+            add("World");
+            add("Java");
+        }};
+
+        // Double brace initialization for HashMap
+        Map<String, Integer> stringMap = new HashMap<String, Integer>() {{
+            put("one", 1);
+            put("two", 2);
+            put("three", 3);
+        }};
+
+        // Printing the initialized collections
+        System.out.println("stringList: " + stringList);
+        System.out.println("stringMap: " + stringMap);
+    }
+}
+```
+
+---
+### > Why is it said that the length() method of String class doesn't return accurate results?
 
 Since this char \[\] array is used by the Java String class internally, the length variable cannot be made public.
+There might be some confusion or misconceptions around its usage due to factors like character encodings, escape sequences, array length syntax, or trailing white spaces in the string. 
+ 
+---
+### > What are the possible ways of making objects eligible for garbage collection (GC) in Java?
 
-### 58\. What are the possible ways of making objects eligible for garbage collection (GC) in Java?
+If a reference variable for an object is removed from the programme while it is running, the object may be trash collected. 
+They are also referred to as inaccessible objects occasionally.  The new operator returns a reference to an object after dynamically allocating memory for it.
+```java
+public class GarbageCollectionSample {
+    public static void main(String[] args) {
+        // Scenario 1: Nullifying the reference
+        SomeObject obj1 = new SomeObject();
+        obj1 = null; // obj1 is now eligible for garbage collection
 
-If a reference variable for an object is removed from the programme while it is running, the object may be trash collected. They are also referred to as inaccessible objects occasionally.  The new operator returns a reference to an object after dynamically allocating memory for it.
+        // Scenario 2: Reassigning the reference
+        SomeObject obj2 = new SomeObject();
+        SomeObject anotherObj = new SomeObject();
+        obj2 = anotherObj; // obj2 is now eligible for garbage collection
 
-### 59\. In the below Java Program, how many objects are eligible for garbage collection?
+        // Scenario 3: Exiting the method
+        createObject(); // The object created inside the createObject method is eligible for garbage collection
 
-I don't know about the program, but generally, three objects are eligible for garbage collection. 
+        // Scenario 4: Circular reference
+        SomeObject objA = new SomeObject();
+        SomeObject objB = new SomeObject();
+        objA.setReference(objB);
+        objB.setReference(objA);
+        // If there are no other references to objA and objB, both objects are eligible for garbage collection
+    }
 
-The first object is created when the program is started and is no longer needed when the program ends. 
+    public static void createObject() {
+        SomeObject obj = new SomeObject();
+        // obj will be eligible for garbage collection after this method exits
+    }
+}
 
-The second object is created when the user inputs their name and is no longer required when the program ends. 
+class SomeObject {
+    private SomeObject reference;
 
-The third object is created when the user inputs their address and is no longer needed when the program ends.
+    public void setReference(SomeObject reference) {
+        this.reference = reference;
+    }
+}
+```
 
-### 60\. What is the best way to inject dependency? Also, state the reason.
+---
+### > What is the best way to inject dependency? Also, state the reason.
 
 Constructor injection. A class requesting its dependencies through its function Object() { \[native code\] } is the most typical instance of dependency injection. Since the client cannot be constructed without the required dependencies, this guarantees that it is always in a correct state.
 
-### 61\. How we can set the spring bean scope. And what supported scopes does it have?
+```java
+public class Printer {
+    public void print(String message) {
+        System.out.println(message);
+    }
+}
+
+public class Logger {
+    private final Printer printer;
+
+    // Constructor injection: Printer dependency is passed through the constructor
+    public Logger(Printer printer) {
+        this.printer = printer;
+    }
+
+    public void log(String message) {
+        printer.print(message);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Printer object
+        Printer printer = new Printer();
+
+        // Create a Logger object with the Printer dependency injected
+        Logger logger = new Logger(printer);
+
+        // Use the Logger to print a message
+        logger.log("This is a log message.");
+    }
+}
+```
+
+---
+### > How we can set the spring bean scope. And what supported scopes does it have?
 
 There are four ways to set the scope of a Spring bean: singleton, prototype, request, and session.
 
@@ -849,13 +1095,76 @@ The singleton scope creates a single instance of a bean, which is shared by all 
 
 The prototype scope creates a new instance of a bean for each object that requests it.
 
-The request and session scopes are only available in a web-based context. The request scope creates a new bean instance for each HTTP request, and the session scope creates a single instance of a bean shared by all objects in a single HTTP session.
+The request and session scopes are only available in a web-based context. The request scope creates a new bean instance for each HTTP request, and 
 
-### 62\. What are the different categories of Java Design patterns?
+The session scope creates a single instance of a bean shared by all objects in a single HTTP session.
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    @Scope("singleton") // Default scope, same as @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+    public MySingletonBean singletonBean() {
+        return new MySingletonBean();
+    }
+
+    @Bean
+    @Scope("prototype")
+    public MyPrototypeBean prototypeBean() {
+        return new MyPrototypeBean();
+    }
+
+    @Bean
+    @Scope("request")
+    public MyRequestBean requestBean() {
+        return new MyRequestBean();
+    }
+
+    @Bean
+    @Scope("session")
+    public MySessionBean sessionBean() {
+        return new MySessionBean();
+    }
+
+    @Bean
+    @Scope("globalSession")
+    public MyGlobalSessionBean globalSessionBean() {
+        return new MyGlobalSessionBean();
+    }
+}
+
+class MySingletonBean {
+    // Singleton bean logic here
+}
+
+class MyPrototypeBean {
+    // Prototype bean logic here
+}
+
+class MyRequestBean {
+    // Request-scoped bean logic here
+}
+
+class MySessionBean {
+    // Session-scoped bean logic here
+}
+
+class MyGlobalSessionBean {
+    // Global session-scoped bean logic here
+}
+```
+
+---
+### > What are the different categories of Java Design patterns?
 
 The three categories of Java design patterns are creational, structural, and behavioural design patterns.
 
-### 63\. What is a Memory Leak? Discuss some common causes of it.
+---
+### > What is a Memory Leak? Discuss some common causes of it.
 
 A memory leak is the slow degradation of system performance over time brought on by the fragmentation of a computer's RAM as a result of shoddy application design or programming that fails to release memory chunks when they are no longer required. These memory leaks frequently result from session items in excess, insertion into Collection objects without deletion, infinite caches, excessive page switching on the operating system, listener methods that are not called, and bespoke data structures that are poorly written.
 
