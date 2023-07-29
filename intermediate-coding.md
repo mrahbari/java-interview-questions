@@ -108,10 +108,39 @@ public class Student {
 
 Yes, A constructor can return a value. It replaces the class's current instance implicitly; you cannot make a constructor return a value explicitly.
 
-### 82\. Explain ‘this’ keyword in Java.
+In Java, constructors do not have a return type, including `void`. This means constructors cannot return a value explicitly like regular methods do. The primary purpose of a constructor is to initialize the object's state and allocate memory for it.
+
+When you create an instance of a class using the `new` keyword, a constructor is automatically called to initialize the object. The constructor initializes the instance variables of the object to their default values (e.g., numeric fields to 0, object references to null, etc.) or to the values provided in the constructor parameters.
+
+For example, consider the following class with a constructor:
+
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    // Constructor with parameters
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+In this example, the `Person` class has a constructor with two parameters, `name` and `age`. When you create a `Person` object using this constructor, it will initialize the `name` and `age` instance variables with the values provided in the constructor parameters.
+
+```java
+Person person = new Person("John", 30);
+```
+In this case, the constructor does not return any value explicitly. Instead, it initializes the `person` object's `name` and `age` fields with "John" and `30`, respectively.
+
+If you need to get specific values after object creation, you can use getter methods to retrieve the values of instance variables. However, the constructor itself does not return any value. Its purpose is solely to initialize the object's state.
+
+---
+### > Explain ‘this’ keyword in Java.
 
 The term "this" is a particular keyword designated as a reference keyword. The "this" keyword is used to refer to the current class properties like method, instance, variable, and constructors.
 
+---
 ### 83\. Explain ‘super’ keyword in Java.
 
 The term "super" is a particular keyword designated as a reference keyword. The "super" keyword refers to the immediate parent class object.
