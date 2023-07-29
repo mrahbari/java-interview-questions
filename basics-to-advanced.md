@@ -1324,345 +1324,179 @@ In the provided example, the array contains elements from 1 to 8, and the missin
 You can test the program with different arrays and `N` values to find the missing number for different scenarios.
 
 ---
-### > Write a Java Program to check if any number is a magic number or not. A number is said to be a magic number if after doing the sum of digits in each step and in turn doing the sum of digits of that sum, the ultimate result (when there is only one digit left) is 1.
+### > Write a Java Program to check if any number is a magic number or not. 
 
-  // Java program to check if
+In mathematics, a "magic number" is a number where the recursive sum of its digits eventually leads to a single-digit number, which is usually 1. The process of adding the digits of a number to get a new number continues until a single-digit number is reached.
 
-// a number is Magic number.
+```java
+import java.util.Scanner;
 
-class GFG
+public class MagicNumberChecker {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
 
-{
+        if (isMagicNumber(number)) {
+            System.out.println(number + " is a magic number!");
+        } else {
+            System.out.println(number + " is not a magic number.");
+        }
 
-public static boolean isMagic(int n)
+        scanner.close();
+    }
 
-{
+    public static boolean isMagicNumber(int number) {
+        while (number > 9) {
+            int sum = 0;
+            while (number != 0) {
+                sum += number % 10;
+                number /= 10;
+            }
+            number = sum;
+        }
 
-            int sum = 0;        
+        return number == 1;
+    }
+}
+```
 
-            // Note that the loop continues
+In this program, we have a method called `isMagicNumber`, which takes an integer `number` as input. It repeatedly calculates the sum of the digits of the number until the number becomes a single-digit number (less than or equal to 9). If the final single-digit number is 1, then the input number is a magic number.
 
-            // if n is 0 and sum is non-zero.
+For example, let's say we input the number `19`. The program will calculate the sum of its digits: `1 + 9 = 10`. As the result is not a single-digit number, the program will calculate the sum of the digits again: `1 + 0 = 1`. Since the result is now 1, the program will return `true`, indicating that `19` is a magic number.
 
-            // It stops when n becomes 0 and
+On the other hand, if we input the number `23`, the program will calculate the sum of its digits: `2 + 3 = 5`. Since the result is already a single-digit number and not 1, the program will return `false`, indicating that `23` is not a magic number.
 
-            // sum becomes single digit.
+---
+### > Write a Java program to create and throw custom exceptions.
+In Java, you can create custom exceptions by extending the `Exception` or `RuntimeException` class (or any of their subclasses) to define your custom exception class. Here's an example Java program that demonstrates how to create and throw custom exceptions:
 
-            while (n > 0 || sum > 9)
+```java
+class MyCustomException extends Exception {
+    public MyCustomException() {
+        super();
+    }
 
-            {
-
-                           if (n == 0)
-
-                           {
-
-                                          n = sum;
-
-                                          sum = 0;
-
-                           }
-
-                           sum += n % 10;
-
-                           n /= 10;
-
-            }
-
-            // Return true if sum becomes 1.
-
-            return (sum == 1);
-
+    public MyCustomException(String message) {
+        super(message);
+    }
 }
 
-// Driver code
-
-public static void main(String args\[\])
-
-            {
-
-            int n = 1234;
-
-            if (isMagic(n))
-
-                           System.out.println("Magic Number");
-
-            else
-
-                           System.out.println("Not a magic Number");
-
-            }
-
+public class CustomExceptionDemo {
+    public static void main(String[] args) {
+        try {
+            int age = 15;
+            if (age < 18) {
+                throw new MyCustomException("You must be at least 18 years old.");
+            } else {
+                System.out.println("You are eligible to proceed.");
+            }
+        } catch (MyCustomException e) {
+            System.err.println("Custom Exception: " + e.getMessage());
+        }
+    }
 }
-
-class InvalidAgeException  extends Exception  
-
-{  
-
-    public InvalidAgeException (String str)  
-
-    {  
-
-// calling the constructor of parent Exception  
-
-        super(str);  
-
-    }  
-
-}  
-
-### 70\. Write a Java program to create and throw custom exceptions.
-
-// class that uses custom exception InvalidAgeException  
-
-public class TestCustomException1  
-
-{  
-
-    // method to check the age  
-
-    static void validate (int age) throws InvalidAgeException{    
-
-       if(age < 18){  
-
-        // throw an object of user defined exception  
-
-        throw new InvalidAgeException("age is not valid to vote");    
-
-    }  
-
-       else {   
-
-        System.out.println("welcome to vote");   
-
-        }   
-
-     }    
-
-    // main method  
-
-    public static void main(String args\[\])  
-
-    {  
-
-        try  
-
-        {  
-
-            // calling the method   
-
-            validate(13);  
-
-        }  
-
-        catch (InvalidAgeException ex)  
-
-        {  
-
-            System.out.println("Caught the exception");  
-
-            // printing the message from InvalidAgeException object  
-
-            System.out.println("Exception occured: " + ex);  
-
-        }  
-
-        System.out.println("rest of the code...");    
-
-    }  
-
-}  
-
-### 71\. Write a Java program to rotate arrays 90 degree clockwise by taking matrices from user input.
-
-public class RotateMatrixClockwise  
-
-{  
-
-public static void main(String args\[\])  
-
-{  
-
-//matrix to rotate   
-
-int a\[\]\[\]= {{1,2,3},{4,5,6},{7,8,9}};    
-
-System.out.println("Original Matrix: \\n");  
-
-//loop for rows  
-
-for(int i=0;i<3;i++)  
-
-{  
-
-//loop for columns  
-
-for(int j=0;j<3;j++)  
-
-{  
-
-//prints the elements of the original matrix  
-
-System.out.print(" "+a\[i\]\[j\]+"\\t");  
-
-}  
-
-System.out.println("\\n");  
-
-}  
-
-System.out.println("Rotate Matrix by 90 Degrees Clockwise: \\n");  
-
-for(int i=0;i<3;i++)  
-
-{  
-
-for(int j=2;j>=0;j--)  
-
-{  
-
-//prints the elements of the rotated matrix  
-
-System.out.print(""+a\[j\]\[i\]+"\\t");  
-
-}  
-
-System.out.println("\\n");  
-
-}  
-
-}  
-
-}   
-
-### 72\. Write a java program to check if any number given as input is the sum of 2 prime numbers.        
-
-// C program to check if a prime number
-
-// can be expressed as sum of
-
-// two Prime Numbers
-
-#include <stdio.h>
-
-#include <math.h>
-
-#include <stdbool.h>
-
-// Function to check whether a number
-
-// is prime or not
-
-bool isPrime(int n)
-
-{
-
-            if (n <= 1)
-
-                           return false;
-
-            for (int i = 2; i <= sqrt(n); i++)
-
-            {
-
-                           if (n % i == 0)
-
-                                          return false;
-
-            }
-
-            return true;
-
+```
+
+---
+### > Write a java program to check if any number given as input is the sum of 2 prime numbers.        
+
+To check if a given number is the sum of two prime numbers, we can implement a Java program using a function that checks if a number is prime and then use that function to find two prime numbers whose sum equals the given input number. Here's how you can do it:
+
+```java
+import java.util.Scanner;
+
+public class SumOfTwoPrimes {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        boolean isSumOfTwoPrimes = checkSumOfTwoPrimes(number);
+
+        if (isSumOfTwoPrimes) {
+            System.out.println(number + " can be expressed as the sum of two prime numbers.");
+        } else {
+            System.out.println(number + " cannot be expressed as the sum of two prime numbers.");
+        }
+
+        scanner.close();
+    }
+
+    public static boolean isPrime(int num) {
+        if (num <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkSumOfTwoPrimes(int number) {
+        for (int i = 2; i <= number / 2; i++) {
+            int num1 = i;
+            int num2 = number - i;
+            if (isPrime(num1) && isPrime(num2)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+```
 
-// Function to check if a prime number
+In this program, we first take a number as input from the user. Then, we have two methods:
 
-// can be expressed as sum of
+1. `isPrime`: This method checks whether a given number is prime or not. It returns `true` if the number is prime and `false` otherwise.
 
-// two Prime Numbers
+2. `checkSumOfTwoPrimes`: This method takes the input number as an argument and checks whether it can be expressed as the sum of two prime numbers. It iterates through all possible pairs of numbers whose sum is equal to the input number and checks if both numbers are prime. If it finds such a pair, it returns `true`; otherwise, it returns `false`.
 
-bool isPossible(int N)
+Finally, we call the `checkSumOfTwoPrimes` method with the user-input number and display the result to the user.
 
-{
+For example, if the user inputs `34`, the program will output:
+```
+34 can be expressed as the sum of two prime numbers.
+```
+This means that `34` can be expressed as `3 + 31`, where both `3` and `31` are prime numbers.
 
-            // if the number is prime,
-
-            // and number-2 is also prime
-
-            if (isPrime(N) && isPrime(N - 2))
-
-                           return true;
-
-            else
-
-                           return false;
-
-}
-
-// Driver code
-
-int main()
-
-{
-
-            int n = 13;
-
-            if (isPossible(n))
-
-                           printf("%s", "Yes");
-
-            else
-
-                           printf("%s", "No");
-
-            return 0;
-
-}
-
-### 73\. Write a Java program for solving the Tower of Hanoi Problem.
+---
+### > Write a Java program for solving the Tower of Hanoi Problem.
 
  // Java recursive program to solve tower of hanoi puzzle
+```java
+import java.util.Scanner;
 
-class GFG
+public class TowerOfHanoi {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of disks: ");
+        int numDisks = scanner.nextInt();
 
-{
+        solveTowerOfHanoi(numDisks, 'A', 'C', 'B');
 
-            // Java recursive function to solve tower of hanoi puzzle
+        scanner.close();
+    }
 
-            static void towerOfHanoi(int n, char from\_rod, char to\_rod, char aux\_rod)
+    public static void solveTowerOfHanoi(int n, char source, char destination, char auxiliary) {
+        if (n == 1) {
+            System.out.println("Move disk 1 from " + source + " to " + destination);
+            return;
+        }
 
-            {
+        // Move n-1 disks from source to auxiliary peg using destination peg as the auxiliary peg
+        solveTowerOfHanoi(n - 1, source, auxiliary, destination);
 
-                           if (n == 1)
+        // Move the nth disk from source to destination peg
+        System.out.println("Move disk " + n + " from " + source + " to " + destination);
 
-                           {
-
-                                          System.out.println("Move disk 1 from rod " + from\_rod + " to rod " +to\_rod);
-
-                                          return;
-
-                           }
-
-                           towerOfHanoi(n-1, from\_rod, aux\_rod, to\_rod);
-
-                           System.out.println("Move disk " + n + " from rod " + from\_rod + " to rod " +to\_rod);
-
-                           towerOfHanoi(n-1, aux\_rod, to\_rod, from\_rod);
-
-            }     
-
-            // Driver method
-
-            public static void main(String args\[\])
-
-            {
-
-                           int n = 4; // Number of disks
-
-                           towerOfHanoi(n, \\'A\\', \\'C\\', \\'B\\'); // A, B and C are names of rods
-
-            }
-
+        // Move the n-1 disks from auxiliary peg to destination peg using source peg as the auxiliary peg
+        solveTowerOfHanoi(n - 1, auxiliary, destination, source);
+    }
 }
+```
 
 ### 74\. Implement Binary Search in Java using recursion.
 
