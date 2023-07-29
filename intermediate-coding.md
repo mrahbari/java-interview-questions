@@ -4,15 +4,7 @@ Java Interview Coding Questions For Intermediate
 
 Now, let's have a look at some of the most asked Java technical interview questions for intermediate experienced professionals.
 
-### 76\. What is JDK? Mention the variants of JDK?
-
-JDK is an abbreviation for Java Development Kit. It is a combined Package of JRE and Developer tools used for [designing Java Applications](https://www.simplilearn.com/popular-java-applications-article "designing Java Applications") and Applets. Oracle has the following variants.
-
-*   JDK Standard Edition
-*   JDK Enterprise Edition
-*   JDK Micro Edition
-
-### 77\. What is the difference between JDK, JRE, and JVM?
+### > What is the difference between JDK, JRE, and JVM?
 
 JVM has a Just in Time (JIT) compiler tool that converts all the Java source code into the low-level compatible machine language. Therefore, it runs faster than the regular application.
 
@@ -20,28 +12,99 @@ JRE has class libraries and other JVM supporting files. But it doesn’t have an
 
 JDK has tools that are required to write Java Programs and uses JRE to execute them. It has a compiler, Java application launcher, and an applet viewer.
 
-### 78\. What is a JIT compiler?
+---
+### > What is a JIT compiler?
 
 JIT compiler refers to Just in Time compiler. It is the simplest way of executing the computer code that takes in compilation during the execution of a program rather than before performance. It commonly uses bytecode translation to machine code. It is then executed directly.
 
-### 79\. What are Brief Access Specifiers and Types of Access Specifiers?
+---
+### > What are Brief Access Specifiers and Types of Access Specifiers?
 
 Access Specifiers are predefined keywords used to help JVM understand the scope of a variable, method, and class. We have four access specifiers.
-
 *   Public Access Specifier 
 *   Private Access Specifier 
 *   Protected Access Specifier 
 *   Default Access Specifier
 
-### 80\. How many types of constructors are used in Java?
+---
+### > How many types of constructors are used in Java?
 
-There are two [types of constructors in Java](https://www.simplilearn.com/tutorials/java-tutorial/constructor-in-java "types of constructors in Java").
+In Java, there are three types of constructors that can be used to initialize objects of a class:
+1. Default Constructor:
+   - A default constructor is automatically provided by Java if no constructors are explicitly defined in the class.
+   - It has no parameters and does not take any arguments.
+   - The default constructor initializes the object with default values for instance variables (e.g., numeric fields set to 0, object references set to null, etc.).
 
-Parameterized Constructors: Parameterized constructor accepts the parameters with which users can initialize the instance variables. Users can initialize the class variables dynamically at the time of instantiating the class.
+Example of a class with a default constructor:
 
-Default constructors: This type doesn’t accept any parameters; rather, it instantiates the class variables with their default values. It is used mainly for object creation.
+```java
+public class Person {
+    private String name;
+    private int age;
 
-### 81\. Can a constructor return a value?
+    // Default constructor (automatically provided if not explicitly defined)
+    public Person() {
+        // No parameters or arguments
+        // Initializes name and age to default values (null and 0, respectively)
+    }
+
+    // Other methods and constructors can be defined here
+}
+```
+
+2. Parameterized Constructor:
+   - A parameterized constructor is a constructor that takes one or more parameters to initialize the object's instance variables with the provided values.
+   - It allows you to provide specific values to the object's fields during object creation.
+   - You can have multiple parameterized constructors with different sets of parameters.
+
+Example of a class with a parameterized constructor:
+
+```java
+public class Car {
+    private String make;
+    private String model;
+    private int year;
+
+    // Parameterized constructor with three parameters
+    public Car(String make, String model, int year) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+    }
+
+    // Other methods and constructors can be defined here
+}
+```
+
+3. Copy Constructor:
+   - A copy constructor is a constructor that takes an object of the same class as a parameter and creates a new object with the same values as the provided object.
+   - It is useful when you want to create a new object that is a deep copy of an existing object.
+
+Example of a class with a copy constructor:
+
+```java
+public class Student {
+    private String name;
+    private int age;
+
+    // Parameterized constructor
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Copy constructor that takes an object of the same class as a parameter
+    public Student(Student otherStudent) {
+        this.name = otherStudent.name;
+        this.age = otherStudent.age;
+    }
+
+    // Other methods and constructors can be defined here
+}
+```
+
+---
+### > Can a constructor return a value?
 
 Yes, A constructor can return a value. It replaces the class's current instance implicitly; you cannot make a constructor return a value explicitly.
 
