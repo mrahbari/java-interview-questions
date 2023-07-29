@@ -141,17 +141,124 @@ If you need to get specific values after object creation, you can use getter met
 The term "this" is a particular keyword designated as a reference keyword. The "this" keyword is used to refer to the current class properties like method, instance, variable, and constructors.
 
 ---
-### 83\. Explain ‘super’ keyword in Java.
+### > Explain ‘super’ keyword in Java.
 
 The term "super" is a particular keyword designated as a reference keyword. The "super" keyword refers to the immediate parent class object.
 
-### 84\. Explain Method Overloading in Java.
+---
+### > Explain Method Overloading in Java.
 
 The process of creating multiple method signatures using one method name is called Method Overloading in Java. Two ways to achieve method overloading are:
 
 1.  Varying the number of arguments
 2.  Changing the return type of the Method 
 
+```java
+Method overloading in Java allows you to define multiple methods with the same name but different parameter lists within the same class. The methods can have different types or numbers of parameters. Java determines which method to call based on the number or types of arguments passed during the method invocation. Here's a sample code to illustrate method overloading:
+
+```java
+public class MathOperations {
+    // Method to add two integers
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    // Method to add three integers
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    // Method to add two doubles
+    public double add(double a, double b) {
+        return a + b;
+    }
+
+    // Method to concatenate two strings
+    public String add(String str1, String str2) {
+        return str1 + str2;
+    }
+
+    // Main method to test the overloaded methods
+    public static void main(String[] args) {
+        MathOperations mathOps = new MathOperations();
+
+        int result1 = mathOps.add(10, 20);
+        int result2 = mathOps.add(5, 10, 15);
+        double result3 = mathOps.add(3.5, 2.7);
+        String result4 = mathOps.add("Hello", " World");
+
+        System.out.println("Result 1: " + result1);
+        System.out.println("Result 2: " + result2);
+        System.out.println("Result 3: " + result3);
+        System.out.println("Result 4: " + result4);
+    }
+}
+```
+
+In this example, we have a class `MathOperations` with four overloaded `add` methods:
+
+1. `add(int a, int b)`: This method takes two `int` parameters and returns their sum.
+
+2. `add(int a, int b, int c)`: This method takes three `int` parameters and returns their sum.
+
+3. `add(double a, double b)`: This method takes two `double` parameters and returns their sum.
+
+4. `add(String str1, String str2)`: This method takes two `String` parameters and returns their concatenation.
+
+In the `main` method, we create an instance of the `MathOperations` class and test each of the overloaded `add` methods with different sets of arguments. The program will output:
+
+```
+Result 1: 30
+Result 2: 30
+Result 3: 6.2
+Result 4: Hello World
+```
+As you can see, Java selects the appropriate `add` method based on the number and types of arguments passed to it, allowing us to perform different operations with the same method name. This is the concept of method overloading in Java.
+```
+---
+### Write a sample of ‘super’ keyword in Java?
+```java
+class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+
+    void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    String breed;
+
+    Dog(String name, String breed) {
+        super(name); // Call the constructor of the superclass (Animal) with the 'name' parameter
+        this.breed = breed;
+    }
+
+    void makeSound() {
+        super.makeSound(); // Call the makeSound() method of the superclass (Animal)
+        System.out.println("Dog barks");
+    }
+
+    void displayDetails() {
+        System.out.println("Name: " + super.name); // Access the 'name' variable of the superclass (Animal)
+        System.out.println("Breed: " + breed);
+    }
+}
+
+public class SuperKeywordExample {
+    public static void main(String[] args) {
+        Dog dog = new Dog("Buddy", "Labrador");
+        dog.makeSound();
+        dog.displayDetails();
+    }
+}
+```
+
+---
 ### 85\. Can we overload a static method?
 
 No, Java does not support the Overloading of a [static method.](https://www.simplilearn.com/tutorials/java-tutorial/static-keyword-in-java "static method.") The process would throw an error reading "static method cannot be referenced."
