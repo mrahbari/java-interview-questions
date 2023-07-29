@@ -153,7 +153,6 @@ The process of creating multiple method signatures using one method name is call
 1.  Varying the number of arguments
 2.  Changing the return type of the Method 
 
-```java
 Method overloading in Java allows you to define multiple methods with the same name but different parameter lists within the same class. The methods can have different types or numbers of parameters. Java determines which method to call based on the number or types of arguments passed during the method invocation. Here's a sample code to illustrate method overloading:
 
 ```java
@@ -194,17 +193,6 @@ public class MathOperations {
     }
 }
 ```
-
-In this example, we have a class `MathOperations` with four overloaded `add` methods:
-
-1. `add(int a, int b)`: This method takes two `int` parameters and returns their sum.
-
-2. `add(int a, int b, int c)`: This method takes three `int` parameters and returns their sum.
-
-3. `add(double a, double b)`: This method takes two `double` parameters and returns their sum.
-
-4. `add(String str1, String str2)`: This method takes two `String` parameters and returns their concatenation.
-
 In the `main` method, we create an instance of the `MathOperations` class and test each of the overloaded `add` methods with different sets of arguments. The program will output:
 
 ```
@@ -259,14 +247,105 @@ public class SuperKeywordExample {
 ```
 
 ---
-### 85\. Can we overload a static method?
+### > Can we overload a static method?
+Yes, in Java, you can overload static methods just like you can overload instance methods. Method overloading allows you to define multiple methods with the same name within the same class, but with different parameter lists.
 
-No, Java does not support the Overloading of a [static method.](https://www.simplilearn.com/tutorials/java-tutorial/static-keyword-in-java "static method.") The process would throw an error reading "static method cannot be referenced."
+When you overload a static method, Java determines which version of the method to call based on the number or types of arguments passed during the method invocation. The decision is made at compile-time, depending on the method's signature.
 
-### 86\. Define Late Binding.
+Here's an example of overloading a static method:
+
+```java
+public class MathOperations {
+    // Static method to add two integers
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    // Static method to add three integers
+    public static int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    // Static method to add two doubles
+    public static double add(double a, double b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        int result1 = MathOperations.add(10, 20);
+        int result2 = MathOperations.add(5, 10, 15);
+        double result3 = MathOperations.add(3.5, 2.7);
+
+        System.out.println("Result 1: " + result1);
+        System.out.println("Result 2: " + result2);
+        System.out.println("Result 3: " + result3);
+    }
+}
+```
+
+In this example, we have a class `MathOperations` with three overloaded static `add` methods. The methods are overloaded based on the number and types of arguments they accept.
+
+In the `main` method, we call each of the static `add` methods with different sets of arguments. The output will be:
+```
+Result 1: 30
+Result 2: 30
+Result 3: 6.2
+```
+As you can see, Java correctly selects the appropriate static `add` method based on the number and types of arguments passed, allowing us to perform different operations with the same method name. This demonstrates that static methods can be overloaded in Java.
+
+---
+### > Define Late Binding.
 
 Binding is a process of unifying the method call with the method's code segment. Late binding happens when the method's code segment is unknown until it is called during the runtime. 
 
+Late binding, also known as dynamic binding or runtime polymorphism, is a feature in object-oriented programming languages where the actual method or function to be called is determined at runtime rather than compile-time. This enables the program to make decisions about method calls based on the actual type of the object being referenced.
+
+Late binding is typically associated with inheritance and polymorphism. It occurs when a class has one or more methods that are declared in the superclass and overridden (redefined) in one or more of its subclasses. The decision about which version of the method to call is deferred until runtime when the actual object type is known.
+
+The late binding mechanism allows for more flexibility and extensibility in the code, as it allows different subclasses to provide their own implementations of the same method. This enables polymorphism, where a reference variable of a superclass type can be used to refer to objects of various subclasses, and the appropriate method is called based on the actual object type at runtime.
+
+In languages like Java, C++, and C#, late binding is achieved using virtual functions (in C++) or method overriding (in Java and C#). When a method is declared as virtual (or overridden) in the base class, the runtime system dynamically dispatches the call to the appropriate method based on the actual type of the object being referenced.
+
+Here's a simple Java example to illustrate late binding:
+
+```java
+class Shape {
+    void draw() {
+        System.out.println("Drawing a shape.");
+    }
+}
+
+class Circle extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing a circle.");
+    }
+}
+
+class Square extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing a square.");
+    }
+}
+
+public class LateBindingExample {
+    public static void main(String[] args) {
+        Shape shape1 = new Circle();
+        Shape shape2 = new Square();
+
+        shape1.draw(); // Calls the draw() method of Circle (late binding)
+        shape2.draw(); // Calls the draw() method of Square (late binding)
+    }
+}
+```
+
+In this example, we have a base class `Shape` with a method `draw()`. The `Circle` and `Square` classes are subclasses of `Shape` that override the `draw()` method with their own implementations.
+
+In the `main` method, we create objects of `Circle` and `Square` and assign them to references of type `Shape`. When we call the `draw()` method on these references, the appropriate method implementation is determined at runtime based on the actual object type. This is an example of late binding or runtime polymorphism.
+
+
+---
 ### 87\. Define Dynamic Method Dispatch.
 
 The Dynamic method dispatch is a process where the method call is executed during the runtime. A reference variable is used to call the super-class. This process is also known as Run-Time Polymorphism.     
