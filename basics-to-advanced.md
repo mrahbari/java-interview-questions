@@ -1168,121 +1168,163 @@ The three categories of Java design patterns are creational, structural, and beh
 
 A memory leak is the slow degradation of system performance over time brought on by the fragmentation of a computer's RAM as a result of shoddy application design or programming that fails to release memory chunks when they are no longer required. These memory leaks frequently result from session items in excess, insertion into Collection objects without deletion, infinite caches, excessive page switching on the operating system, listener methods that are not called, and bespoke data structures that are poorly written.
 
-### 64\. Assume a thread has a lock on it, calling the sleep() method on that thread will release the lock?
+---
+### > Assume a thread has a lock on it, calling the sleep() method on that thread will release the lock?
 
 No, the thread might release the locks using notify, notifyAll(), and wait() methods.
 
-### 65\. Write a Java Program to print Fibonacci Series using Recursion.
+---
+### > Write a Java Program to print Fibonacci Series using Recursion.
 
 class FibonacciExample2{  
 
  static int n1=0,n2=1,n3=0;    
-
  static void printFibonacci(int count){    
-
     if(count>0){    
-
          n3 = n1 + n2;    
-
          n1 = n2;    
-
          n2 = n3;    
-
          System.out.print(" "+n3);   
-
          printFibonacci(count-1);    
-
      }    
+   }    
 
- }    
-
- public static void main(String args\[\]){    
-
-  int count=10;    
-
-  System.out.print(n1+" "+n2);//printing 0 and 1    
-
-  printFibonacci(count-2);//n-2 because 2 numbers are already printed   
-
+    public static void main(String args\[\]){    
+      int count=10;    
+      System.out.print(n1+" "+n2);//printing 0 and 1  
+      
+      printFibonacci(count-2);//n-2 because 2 numbers are already printed   
+    }  
  }  
 
- }  
+---
+### > Write a Java program to check if the two strings are anagrams.
+An anagram is a word or phrase formed by rearranging the letters of another word or phrase, typically using all the original letters exactly once. In simpler terms, two words are considered anagrams if they have the same characters, but the order of the characters is different.
 
-### 66\. Write a Java program to check if the two strings are anagrams.
+For example:
+"listen" and "silent" are anagrams because they have the same characters.
+"triangle" and "integral" are anagrams because they have the same characters.
 
+```java
 import java.util.Arrays;     
-
 public class AnagramString {  
 
     static void isAnagram(String str1, String str2) {  
-
         String s1 = str1.replaceAll("\\\\s", "");  
-
         String s2 = str2.replaceAll("\\\\s", "");  
-
         boolean status = true;  
 
         if (s1.length() != s2.length()) {  
-
             status = false;  
-
         } else {  
-
             char\[\] ArrayS1 = s1.toLowerCase().toCharArray();  
-
             char\[\] ArrayS2 = s2.toLowerCase().toCharArray();  
-
             Arrays.sort(ArrayS1);  
-
             Arrays.sort(ArrayS2);  
-
             status = Arrays.equals(ArrayS1, ArrayS2);  
-
         }  
 
         if (status) {  
-
             System.out.println(s1 + " and " + s2 + " are anagrams");  
-
         } else {  
-
             System.out.println(s1 + " and " + s2 + " are not anagrams");  
-
         }  
-
     }  
 
     public static void main(String\[\] args) {  
-
         isAnagram("Keep", "Peek");  
-
         isAnagram("Mother In Law", "Hitler Woman");  
-
     }  
-
 }  
-
+```
 Output
 
 Keep and Peek are anagrams
-
 MotherInLaw and HitlerWoman are anagrams
 
-### 67\. Write a Java Program to find the factorial of a given number.
+---
+### > Write a Java Program to find the factorial of a given number.
 
 4! = 4\*3\*2\*1 = 24  
-
 5! = 5\*4\*3\*2\*1 = 120  
+```java
+import java.util.Scanner;
 
-### 68\. Given an array of non-duplicating numbers from 1 to n where one number is missing, write an efficient java program to find that missing number.
+public class FactorialCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number to find its factorial: ");
+        int number = scanner.nextInt();
+
+        if (number < 0) {
+            System.out.println("Factorial is not defined for negative numbers.");
+        } else {
+            long factorial = calculateFactorial(number);
+            System.out.println("Factorial of " + number + " is: " + factorial);
+        }
+
+        scanner.close();
+    }
+
+    public static long calculateFactorial(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        } else {
+            long factorial = 1;
+            for (int i = 2; i <= n; i++) {
+                factorial *= i;
+            }
+            return factorial;
+        }
+    }
+}
+
+```
+
+---
+### > Given an array of non-duplicating numbers from 1 to n where one number is missing, write an efficient java program to find that missing number.
 
 Input: arr\[\] = {1, 2, 4, 6, 3, 7, 8}, N = 8
-
              Output: 5
-
             Explanation: The missing number between 1 to 8 is 5
 
-### 69\. Write a Java Program to check if any number is a magic number or not. A number is said to be a magic number if after doing the sum of digits in each step and in turn doing the sum of digits of that sum, the ultimate result (when there is only one digit left) is 1.
+You can find the missing number in an array of non-duplicating numbers from 1 to n by using the sum of the arithmetic series formula and calculating the sum of the given array. The missing number can be determined by subtracting the sum of the array elements from the expected sum of the sequence of numbers from 1 to n. Here's an efficient Java program to achieve this:
+
+```java
+public class MissingNumberFinder {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 4, 6, 3, 7, 8};
+        int n = 8;
+
+        int missingNumber = findMissingNumber(arr, n);
+        System.out.println("The missing number is: " + missingNumber);
+    }
+
+    public static int findMissingNumber(int[] arr, int n) {
+        // Calculate the sum of the sequence from 1 to n using the arithmetic series formula
+        int expectedSum = n * (n + 1) / 2;
+
+        // Calculate the sum of the elements in the given array
+        int actualSum = 0;
+        for (int num : arr) {
+            actualSum += num;
+        }
+
+        // The missing number is the difference between the expected sum and the actual sum
+        int missingNumber = expectedSum - actualSum;
+
+        return missingNumber;
+    }
+}
+```
+
+In this program, we have a method called `findMissingNumber` that takes the array `arr` and the integer `n` as input. It calculates the expected sum of the sequence from 1 to `n` using the arithmetic series formula `(n * (n + 1) / 2)`. Then, it calculates the actual sum of the elements in the given array. The missing number is obtained by subtracting the actual sum from the expected sum.
+
+In the provided example, the array contains elements from 1 to 8, and the missing number is 5. The program will correctly output `5`.
+You can test the program with different arrays and `N` values to find the missing number for different scenarios.
+
+---
+### > Write a Java Program to check if any number is a magic number or not. A number is said to be a magic number if after doing the sum of digits in each step and in turn doing the sum of digits of that sum, the ultimate result (when there is only one digit left) is 1.
 
   // Java program to check if
 
