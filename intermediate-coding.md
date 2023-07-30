@@ -304,8 +304,6 @@ Late binding is typically associated with inheritance and polymorphism. It occur
 
 The late binding mechanism allows for more flexibility and extensibility in the code, as it allows different subclasses to provide their own implementations of the same method. This enables polymorphism, where a reference variable of a superclass type can be used to refer to objects of various subclasses, and the appropriate method is called based on the actual object type at runtime.
 
-In languages like Java, C++, and C#, late binding is achieved using virtual functions (in C++) or method overriding (in Java and C#). When a method is declared as virtual (or overridden) in the base class, the runtime system dynamically dispatches the call to the appropriate method based on the actual type of the object being referenced.
-
 Here's a simple Java example to illustrate late binding:
 
 ```java
@@ -346,15 +344,55 @@ In the `main` method, we create objects of `Circle` and `Square` and assign them
 
 
 ---
-### 87\. Define Dynamic Method Dispatch.
+### > Define Dynamic Method Dispatch.
 
-The Dynamic method dispatch is a process where the method call is executed during the runtime. A reference variable is used to call the super-class. This process is also known as Run-Time Polymorphism.     
+The Dynamic method dispatch is a process where the method call is executed during the runtime. A reference variable is used to call the super-class. This process is also known as Run-Time Polymorphism.   
 
-### 88\. Why is the delete function faster in the linked list than an array?
+Dynamic Method Dispatch in Java refers to the mechanism by which the appropriate method implementation is determined at runtime, based on the actual object type rather than the reference type. It is an essential feature of polymorphism in object-oriented programming.
 
-Delete Function is faster in [linked lists in Java](https://www.simplilearn.com/tutorials/java-tutorial/linked-list-in-java "linked lists in Java") as the user needs to make a minor update to the pointer value so that the node can point to the next successor in the list
+Example:
 
-### 89\. Give a briefing on the life cycle of a thread.
+```java
+class Animal {
+    void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal1 = new Dog();
+        Animal animal2 = new Cat();
+
+        animal1.makeSound(); // Output: Dog barks
+        animal2.makeSound(); // Output: Cat meows
+    }
+}
+```
+
+In the example above, we have a base class `Animal` and two derived classes `Dog` and `Cat`. Each derived class overrides the `makeSound()` method. During runtime, when we create instances of `Dog` and `Cat`, and call the `makeSound()` method through the base class reference (`Animal`), the appropriate method implementation from the actual object type (either `Dog` or `Cat`) is executed. This is dynamic method dispatch in action.
+
+---
+### > Why is the delete function faster in the linked list than an array?
+
+Delete Function is faster in linked lists in Java as the user needs to make a minor update to the pointer value so that the node can point to the next successor in the list
+
+---
+### > Give a briefing on the life cycle of a thread.
 
 The life cycle of a thread includes five stages, as mentioned below.
 
@@ -363,13 +401,64 @@ The life cycle of a thread includes five stages, as mentioned below.
 3.  Running State
 4.  Blocked State
 5.  Dead State
+```java
+public class ThreadLifecycleExample {
 
-### 90\. Explain the difference between >> and >>> operators.
+    public static void main(String[] args) {
+        Thread thread = new Thread(() -> {
+            System.out.println("Thread is running");
+            try {
+                Thread.sleep(2000); // Simulating some task execution
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Thread has finished");
+        });
+
+        System.out.println("Thread State: " + thread.getState()); // New
+
+        thread.start();
+        System.out.println("Thread State: " + thread.getState()); // Runnable
+
+        try {
+            Thread.sleep(500); // Give some time for the thread to start
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Thread State: " + thread.getState()); // Running
+
+        try {
+            thread.join(); // Wait for the thread to finish
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Thread State: " + thread.getState()); // Dead
+    }
+}
+```
+
+---
+### > Explain the difference between >> and >>> operators.
 
 Although they look similar, there is a massive difference between both.
 
-*   \>> operator does the job of right shifting the sign bits
-*   \>>> operator is used in shifting out the zero-filled bits
+*   \>> operator does the job of right shifting the sign bits. The leftmost bit (the sign bit) is used as the fill bit
+*   \>>> operator is used in shifting out the zero-filled bits. The leftmost bit with 0.
+```java
+int num = -10; // Binary representation: 11111111 11111111 11111111 11110110
+int result = num >> 2;
+System.out.println(result); // Output: -3 (Binary representation: 11111111 11111111 11111111 11111101)
+```
+```java
+int num = -10; // Binary representation: 11111111 11111111 11111111 11110110
+int result = num >>> 2;
+System.out.println(result); // Output: 1073741821 (Binary representation: 00111111 11111111 11111111 11111101)
+```
+
+
+
 
 ### 91\. Brief the life cycle of an applet.
 
