@@ -48,7 +48,6 @@ You cannot use `this` and `super` together because their functionalities are dif
 ---
 ### > What is JDBC?
 
-JDBC is an abbreviation for Java Database Connector.
 JDBC is an abstraction layer used to establish connectivity between an existing database and a Java application
 
 JDBC stands for "Java Database Connectivity." It is a Java API (Application Programming Interface) that provides a standard way for Java programs to interact with relational databases. JDBC enables Java applications to perform database operations such as connecting to databases, executing SQL queries, updating and retrieving data, and managing database transactions.
@@ -112,38 +111,70 @@ public class JDBCSample {
 
 Please note that in a real application, you should use try-with-resources or properly close the resources in the `finally` block to ensure proper resource management.
 
-
-### 102\. Explain the various directives in JSP.
-
-Directives are instructions processed by JSP Engine. After the JSP page is compiled into a Servlet, Directives set page-level instructions, insert external files, and define customized tag libraries. Directives are defined using the symbols below:
-
-start with "< %@" and then end with "% >" 
-
-The various types of directives are shown below:
-
-*   Include directive
-
-It includes a file and combines the content of the whole file with the currently active pages.
-
-*   Page directive
-
-Page Directive defines specific attributes in the JSP page, like the buffer and error page.
-
-*   Taglib
-
-Taglib declares a custom tag library, which is used on the page.
-
-### 103\. What are the observer and observable classes?
+---
+### > What are the observer and observable classes?
 
 Objects that inherit the "Observable class" take care of a list of "observers." 
-
 When an Observable object gets upgraded, it calls the update() method of each of its observers. 
-
 After that, it notifies all the observers that there is a change of state. 
-
 The Observer interface gets implemented by objects that observe Observable objects.
 
-### 104\. What is Session Management in Java?
+In Java, the Observer pattern is a behavioral design pattern that allows one object (the "subject" or "observable") to notify multiple dependent objects (the "observers") of any state changes it undergoes. The Observer pattern helps to establish a one-to-many dependency between objects, where the observers automatically update their state when the subject changes.
+
+To implement the Observer pattern in Java, there are two main classes involved:
+
+1. **Observable class (Subject):**
+The `Observable` class is a part of the Java Standard Library (`java.util` package). It serves as the subject that maintains a list of observers and notifies them when a state change occurs. The `Observable` class provides methods to manage the list of observers and notify them of changes using the `notifyObservers()` method.
+
+2. **Observer interface (Observer):**
+The `Observer` interface is also part of the Java Standard Library (`java.util` package). It represents the observer objects that receive notifications from the `Observable` class. The `Observer` interface has a single method called `update(Observable o, Object arg)` that is called when the observed object (`Observable`) changes its state.
+
+The Observer pattern is widely used in event-driven programming and user interfaces (e.g., graphical user interfaces), where changes in one part of the application need to be reflected in other parts.
+
+Here's a simplified example of how to use `Observable` and `Observer` in Java:
+
+```java
+import java.util.Observable;
+import java.util.Observer;
+
+// Subject (Observable) class
+class WeatherStation extends Observable {
+    private int temperature;
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+        setChanged(); // Mark the object as changed
+        notifyObservers(temperature); // Notify the observers with the new temperature
+    }
+}
+
+// Observer class
+class TemperatureDisplay implements Observer {
+    @Override
+    public void update(Observable o, Object arg) {
+        int temperature = (int) arg;
+        System.out.println("Temperature Display: " + temperature + " degrees Celsius");
+    }
+}
+
+public class ObserverPatternExample {
+    public static void main(String[] args) {
+        WeatherStation weatherStation = new WeatherStation();
+        TemperatureDisplay temperatureDisplay = new TemperatureDisplay();
+
+        // Add the observer to the observable
+        weatherStation.addObserver(temperatureDisplay);
+
+        // Simulate a change in temperature
+        weatherStation.setTemperature(25);
+    }
+}
+```
+
+In this example, `WeatherStation` is the `Observable` class that represents the subject, and `TemperatureDisplay` is the `Observer` class that represents the observer. When the temperature changes in the `WeatherStation`, it notifies the `TemperatureDisplay`, which then updates its display with the new temperature.
+
+---
+### > What is Session Management in Java?
 
 A session is essentially defined as the random conversation's dynamic state between the client and the server. The virtual communication channel includes a string of responses and requests from both sides. The popular way of implementing session management is establishing a session ID in the client's communicative discourse and the server.
 
