@@ -4,64 +4,49 @@ Java Interview Questions for Experienced
 
 Now, lets move on to our last section of Advanced Core Java Interview Questions which is primarly useful for experienced and working professionals.
 
-### 99\. Can "this" and "super" keywords be used together?
+### 99 > Can "this" and "super" keywords be used together?
 
-No, "this" and "super" keywords should be used in the first statement in the class constructor. The following code gives you a brief idea.
+No, the `this` and `super` keywords cannot be used together in Java. They have distinct and separate purposes in the context of object-oriented programming.
 
-public class baseClass {  
+1. `this`: The `this` keyword refers to the current instance of the class. It is used to differentiate between instance variables and local variables when they have the same name, as well as to invoke other constructors of the same class within one constructor.
 
-     baseClass() {  
+Example:
+```java
+class MyClass {
+    private int x;
 
-         super();   
+    public MyClass(int x) {
+        this.x = x; // Use "this" to refer to the instance variable "x"
+    }
+}
+```
 
-         this();  
+2. `super`: The `super` keyword refers to the superclass (i.e., the parent class) of the current class. It is used to call the superclass's constructor or to access members of the superclass that are hidden or overridden by the subclass.
 
-         System.out.println(" baseClass object is created");  
-
-     }  
-
-     public static void main(String \[\]args){  
-
-         baseClass bclass = new baseClass();  
-
-     }  
-
+Example:
+```java
+class Animal {
+    void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
 }
 
-### 100\. What is a JSP page?
+class Dog extends Animal {
+    @Override
+    void makeSound() {
+        super.makeSound(); // Call the overridden method in the superclass
+        System.out.println("Dog barks");
+    }
+}
+```
 
-JSP is an abbreviation for Java Servlet Page. The JSP page consists of two types of text.
+In the above example, the `super.makeSound()` call is used to invoke the `makeSound()` method from the superclass (`Animal`) before adding additional behavior specific to the subclass (`Dog`).
 
-*   Static Data 
-*   JSP elements
+You cannot use `this` and `super` together because their functionalities are different and do not overlap. Attempting to do so would result in a compilation error.
 
-Find Our Java Training in Top Cities
 
-India
-
-United States
-
-Other Countries
-
-[Java Training in Bangalore](https://www.simplilearn.com/advanced-java-training-course-bangalore-city "Java Training in Bangalore")
-
-[Java Training New York](https://www.simplilearn.com/advanced-java-training-course-new-york-city "Java Training New York")
-
-[Java Course London](https://www.simplilearn.com/advanced-java-training-course-london-city "Java Course London")
-
-[Java Training in Chennai](https://www.simplilearn.com/advanced-java-training-course-chennai-city "Java Training in Chennai")
-
-[Java Training San Diego](https://www.simplilearn.com/advanced-java-training-course-san-diego-city "Java Training San Diego")
-
-[Java Course Singapore](https://www.simplilearn.com/advanced-java-training-course-singapore-city "Java Course Singapore")
-
-[Java Training in Hyderabad](https://www.simplilearn.com/advanced-java-training-course-hyderabad-city "Java Training in Hyderabad")
-
-[Java Training Dallas](https://www.simplilearn.com/advanced-java-training-course-dallas-city "Java Training Dallas")
-
-[Java Course Melbourne](https://www.simplilearn.com/advanced-java-training-course-melbourne-city "Java Course Melbourne")
-
-### 101\. What is JDBC?
+---
+### > What is JDBC?
 
 JDBC is an abbreviation for Java Database Connector.
 
