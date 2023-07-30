@@ -4,7 +4,7 @@ Java Interview Questions for Experienced
 
 Now, lets move on to our last section of Advanced Core Java Interview Questions which is primarly useful for experienced and working professionals.
 
-### 99 > Can "this" and "super" keywords be used together?
+### > Can "this" and "super" keywords be used together?
 
 No, the `this` and `super` keywords cannot be used together in Java. They have distinct and separate purposes in the context of object-oriented programming.
 
@@ -49,8 +49,69 @@ You cannot use `this` and `super` together because their functionalities are dif
 ### > What is JDBC?
 
 JDBC is an abbreviation for Java Database Connector.
-
 JDBC is an abstraction layer used to establish connectivity between an existing database and a Java application
+
+JDBC stands for "Java Database Connectivity." It is a Java API (Application Programming Interface) that provides a standard way for Java programs to interact with relational databases. JDBC enables Java applications to perform database operations such as connecting to databases, executing SQL queries, updating and retrieving data, and managing database transactions.
+
+Key features and components of JDBC:
+
+1. **Driver Manager:** JDBC includes the `DriverManager` class, which manages the database drivers. It provides methods to register and get a connection to a specific database.
+
+2. **Database Drivers:** JDBC drivers are software components that implement the JDBC API for a particular database. There are four types of JDBC drivers: Type 1 (JDBC-ODBC Bridge), Type 2 (Native-API), Type 3 (Network Protocol), and Type 4 (Pure Java).
+
+3. **Connection:** The `Connection` interface represents a connection to a database. It is obtained using the `DriverManager.getConnection()` method and is used to perform database operations.
+
+4. **Statement:** The `Statement` interface is used to execute SQL queries and updates on the database. There are three types of statements: `Statement` (for general SQL queries), `PreparedStatement` (for parameterized queries), and `CallableStatement` (for executing stored procedures).
+
+5. **ResultSet:** The `ResultSet` interface represents the result of a query and provides methods to retrieve data from the database.
+
+6. **SQL Exceptions:** JDBC methods throw `SQLException` in case of database-related errors, and handling these exceptions is essential in JDBC programming.
+
+Using JDBC, Java developers can create database-driven applications, perform CRUD (Create, Read, Update, Delete) operations, and work with the data stored in relational databases like MySQL, Oracle, PostgreSQL, SQL Server, etc.
+
+Here's a simple example of using JDBC to connect to a database and execute a query:
+
+```java
+import java.sql.*;
+
+public class JDBCSample {
+    public static void main(String[] args) {
+        try {
+            // Load the JDBC driver (type 4)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Create a connection to the database
+            String url = "jdbc:mysql://localhost:3306/mydatabase";
+            String username = "myuser";
+            String password = "mypassword";
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            // Create a statement and execute a query
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM employees";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            // Process the result set
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                double salary = resultSet.getDouble("salary");
+                System.out.println("Employee ID: " + id + ", Name: " + name + ", Salary: " + salary);
+            }
+
+            // Close the resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Please note that in a real application, you should use try-with-resources or properly close the resources in the `finally` block to ensure proper resource management.
+
 
 ### 102\. Explain the various directives in JSP.
 
