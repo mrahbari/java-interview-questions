@@ -4,6 +4,87 @@ Java Interview Coding Questions For Intermediate
 
 Now, let's have a look at some of the most asked Java technical interview questions for intermediate experienced professionals.
 
+---
+### > Why are generics used in Java Programming?
+
+Generics in Java are used to enhance the type safety and reusability of code. They allow you to create classes, interfaces, and methods that can work with different data types while providing compile-time type checking. By using generics, you can write code that is more flexible and less error-prone, as the compiler ensures that the data types used are consistent.
+
+Benefits of using generics:
+
+1. Type safety: With generics, the compiler can catch type-related errors at compile-time, reducing the likelihood of runtime exceptions.
+2. Code reusability: Generics allow you to create classes and methods that can be used with various data types, promoting code reuse and eliminating the need for duplicated code.
+3. Elimination of casting: Generics eliminate the need for explicit type casting, making the code more concise and readable.
+4. Better code documentation: Using generics adds clarity to the code by explicitly stating the types that a class or method is designed to work with.
+
+Sample code demonstrating the use of generics:
+
+Let's create a simple generic class called `Box`, which can store an object of any type:
+
+```java
+public class Box<T> {
+    private T content;
+
+    public Box(T content) {
+        this.content = content;
+    }
+
+    public T getContent() {
+        return content;
+    }
+
+    public void setContent(T content) {
+        this.content = content;
+    }
+
+    public static void main(String[] args) {
+        // Create a Box of Integer
+        Box<Integer> intBox = new Box<>(10);
+        int value = intBox.getContent();
+        System.out.println("Integer value: " + value);
+
+        // Create a Box of String
+        Box<String> stringBox = new Box<>("Hello, Generics!");
+        String message = stringBox.getContent();
+        System.out.println("String content: " + message);
+    }
+}
+```
+
+In the example above, we have a generic class `Box`, which can be instantiated with different types (`T`). We create instances of `Box` with different data types (Integer and String), and the compiler ensures type safety by performing type checking at compile-time.
+
+Without generics, we might have to use a non-generic Object type for the content, which would require casting and increase the risk of runtime errors:
+
+```java
+public class NonGenericBox {
+    private Object content;
+
+    public NonGenericBox(Object content) {
+        this.content = content;
+    }
+
+    public Object getContent() {
+        return content;
+    }
+
+    public void setContent(Object content) {
+        this.content = content;
+    }
+
+    public static void main(String[] args) {
+        NonGenericBox intBox = new NonGenericBox(10);
+        int value = (int) intBox.getContent(); // Requires casting
+        System.out.println("Integer value: " + value);
+
+        NonGenericBox stringBox = new NonGenericBox("Hello, Generics!");
+        String message = (String) stringBox.getContent(); // Requires casting
+        System.out.println("String content: " + message);
+    }
+}
+```
+
+As you can see, the non-generic version involves casting and lacks the safety and clarity provided by generics.
+
+---
 ### > What is the difference between JDK, JRE, and JVM?
 
 JVM has a Just in Time (JIT) compiler tool that converts all the Java source code into the low-level compatible machine language. Therefore, it runs faster than the regular application.
@@ -342,7 +423,6 @@ In this example, we have a base class `Shape` with a method `draw()`. The `Circl
 
 In the `main` method, we create objects of `Circle` and `Square` and assign them to references of type `Shape`. When we call the `draw()` method on these references, the appropriate method implementation is determined at runtime based on the actual object type. This is an example of late binding or runtime polymorphism.
 
-
 ---
 ### > Define Dynamic Method Dispatch.
 
@@ -457,33 +537,132 @@ int result = num >>> 2;
 System.out.println(result); // Output: 1073741821 (Binary representation: 00111111 11111111 11111111 11111101)
 ```
 
+---
+### > Explain the Externalizable interface.
 
+The `Externalizable` interface in Java is used for customizing the serialization and deserialization process of objects. Unlike the `Serializable` interface, which performs automatic serialization and deserialization, the `Externalizable` interface requires you to explicitly define how an object should be written to and read from a stream.
 
+To implement the `Externalizable` interface, a class must provide implementations for two methods: `writeExternal()` for serialization and `readExternal()` for deserialization.
 
-### 91\. Brief the life cycle of an applet.
+Note that the `Externalizable` interface requires you to handle the entire serialization and deserialization process manually, including any additional members in the class that need to be serialized or deserialized. It provides greater flexibility but requires more effort compared to the automatic serialization provided by the `Serializable` interface.
 
-The life cycle of an applet involves the following.
+Here's a sample code demonstrating the usage of the `Externalizable` interface:
 
-1.  Initialization
-2.  Start
-3.  Stop
-4.  Destroy
-5.  Paint
+```java
+import java.io.*;
 
-### 92\. Why are generics used in Java Programming?
+class Person implements Externalizable {
+    private String name;
+    private int age;
 
-Compile-time type safety is provided by using generics. Compile-time type safety allows users to catch unnecessary invalid types at compile time. Generic methods and classes help programmers specify a single method declaration, a set of related methods, or related types with an available class declaration. 
+    // A no-argument constructor is required for Externalizable
+    public Person() {}
 
-### 93\. Explain the Externalizable interface.
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
 
-The Externalizable interface helps with control over the process of serialization. An "externalisable" interface incorporates readExternal and writeExternal methods.
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        // Custom serialization logic
+        out.writeObject(name);
+        out.writeInt(age);
+    }
 
-### 94\. What is the Daemon Thread?
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        // Custom deserialization logic
+        name = (String) in.readObject();
+        age = in.readInt();
+    }
 
-The Daemon thread can be defined as a thread with the least priority. This Daemon thread is designed to run in the background during the Garbage Collection in Java.
+    @Override
+    public String toString() {
+        return "Person [name=" + name + ", age=" + age + "]";
+    }
+}
 
-The setDaemon() method creates a Daemon thread in Java.
+public class ExternalizableExample {
+    public static void main(String[] args) {
+        try {
+            // Serialize the object
+            Person person = new Person("John", 30);
+            FileOutputStream fileOut = new FileOutputStream("person.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(person);
+            out.close();
+            fileOut.close();
 
+            System.out.println("Object has been serialized.");
+
+            // Deserialize the object
+            FileInputStream fileIn = new FileInputStream("person.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            Person deserializedPerson = (Person) in.readObject();
+            in.close();
+            fileIn.close();
+
+            System.out.println("Object has been deserialized:");
+            System.out.println(deserializedPerson);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In the example above, we have a `Person` class that implements the `Externalizable` interface. We override the `writeExternal()` and `readExternal()` methods to define our custom serialization and deserialization logic. When the `Person` object is serialized to a file using `ObjectOutputStream`, the `writeExternal()` method is called, and when it is deserialized using `ObjectInputStream`, the `readExternal()` method is called. This way, we have full control over the serialization and deserialization process.
+
+---
+### > What is the Daemon Thread?
+
+In Java, a daemon thread is a special type of thread that runs in the background and provides a supporting role to other non-daemon threads. The main characteristic of a daemon thread is that it does not prevent the Java Virtual Machine (JVM) from exiting when all non-daemon threads have finished their execution. In other words, the JVM can terminate if only daemon threads are running.
+
+Daemon threads are typically used for tasks that do not require the program to wait for their completion. They are often used for services, maintenance, or background tasks that should run as long as the program is running but are not critical to the application's main functionality.
+
+Key points about daemon threads:
+1. They are created by setting the thread's `setDaemon(true)` method to `true` before starting the thread.
+2. Daemon threads inherit the priority of the thread that created them unless explicitly set.
+3. Daemon threads are automatically terminated when there are no more non-daemon threads running.
+4. They should not be used for tasks that involve critical operations, such as writing to files or database management, as they can be abruptly terminated when the JVM exits.
+
+Here's a simple example of creating a daemon thread in Java:
+
+```java
+public class DaemonThreadExample {
+    public static void main(String[] args) {
+        Thread daemonThread = new Thread(() -> {
+            while (true) {
+                System.out.println("Daemon thread is running");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        daemonThread.setDaemon(true); // Set the thread as daemon
+        daemonThread.start();
+
+        // Main thread sleeps for a while to observe the daemon thread running
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Main thread is done");
+    }
+}
+```
+
+In this example, we create a daemon thread that prints a message every second. Since the main thread sleeps for 5 seconds, we can observe the daemon thread running for that period. When the main thread is done, the JVM exits, and the daemon thread is terminated without completing its iteration.
+
+Note that the exact behavior of daemon threads can be platform-dependent and may vary in different Java Virtual Machine implementations.
+
+---
 ### 95\. Explain the term enumeration in Java.
 
 Enumeration or [enum is an interface in Java](https://www.simplilearn.com/tutorials/java-tutorial/enum-in-java "enum is an interface in Java"). Enum allows the sequential access of the elements stored in a collection in Java.
