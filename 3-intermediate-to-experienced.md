@@ -172,27 +172,130 @@ In this example, `WeatherStation` is the `Observable` class that represents the 
 ### > What is Session Management in Java?
 
 A session is essentially defined as the random conversation's dynamic state between the client and the server. The virtual communication channel includes a string of responses and requests from both sides. The popular way of implementing session management is establishing a session ID in the client's communicative discourse and the server.
+```java
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-### 105\. Briefly explain the term Spring Framework.
+@WebServlet("/storeName")
+public class NameServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get the name entered by the user
+        String name = request.getParameter("name");
 
-Spring is essentially defined as an application [framework in Java](https://www.simplilearn.com/tutorials/java-tutorial/java-frameworks "framework in Java") and inversion of control containers for Java. The spring framework creates enterprise applications in Java. Especially useful to keep in mind that the spring framework's central features are essentially conducive to any Java application.
+        // Get the session or create a new one if it doesn't exist
+        HttpSession session = request.getSession(true);
 
-### 106\. How to handle exceptions in Spring MVC Framework?
+        // Store the name in the session
+        session.setAttribute("userName", name);
+
+        // Get the name stored in the session
+        //String name = (String) session.getAttribute("userName");
+
+        // Redirect the user to a new page to display the name
+        response.sendRedirect("displayName");
+    }
+}
+```
+
+
+---
+### > Briefly explain the term Spring Framework.
+
+The Spring Framework is a powerful and widely-used open-source application framework for building enterprise-level Java applications. It provides a comprehensive programming and configuration model that simplifies the development of robust and flexible applications.
+
+Key features of the Spring Framework include:
+
+1. **Dependency Injection (DI):** Spring promotes the principle of Inversion of Control (IoC) by handling the creation and management of objects (beans) and their dependencies. Instead of manually creating and wiring components, Spring automatically injects the required dependencies into objects, reducing coupling and enhancing modularity.
+
+2. **Aspect-Oriented Programming (AOP):** Spring supports AOP, allowing developers to separate cross-cutting concerns (e.g., logging, security, transaction management) from the business logic. AOP enables the modularization of such concerns, making the codebase more maintainable.
+
+3. **Enterprise Integration:** Spring offers integrations with various enterprise technologies, such as data access frameworks (e.g., JDBC, JPA, Hibernate), messaging systems (e.g., JMS), and other frameworks like Quartz for scheduling tasks.
+
+4. **Web Development Support:** Spring provides features to build web applications efficiently. It includes the Spring Web MVC module, which offers a flexible and powerful model-view-controller framework for web development.
+
+5. **Transaction Management:** Spring provides a transaction management abstraction that supports both programmatic and declarative transaction management. It simplifies working with transactions in a consistent and scalable manner.
+
+6. **Security:** Spring Security is a part of the Spring ecosystem and provides comprehensive security features to secure applications, including authentication, authorization, and protection against common security vulnerabilities.
+
+7. **Testing:** Spring's test framework supports unit and integration testing of Spring applications. It provides tools to write test cases for Spring components easily.
+
+8. **Extensibility:** Spring is highly extensible, allowing developers to plug in additional modules or frameworks, making it suitable for various types of applications.
+
+The Spring Framework promotes best practices, encourages loosely coupled and modular design, and enhances developer productivity. It has become a de facto standard in the Java ecosystem for building enterprise-level applications, from small-scale projects to large-scale, mission-critical systems.
+
+---
+### > How to handle exceptions in Spring MVC Framework?
 
 Spring MVC has two approaches for handling the exceptions:
 
 *   Exception handler method: In this kind of exception handling, the user will get the @ExceptionHandler annotation type used to annotate a method to handle exceptions.
 *   XML Configuration: The user can use the SimpleMappingExceptionResolver bean in Spring’s application file and map the exception.
 
-### 107\. What is JCA in Java?
+---
+### > What is JCA in Java?
 
-Java Cryptography Architecture gives a platform and provides architecture and application programming interfaces that enable decryption and encryption. 
+JCA stands for Java Cryptography Architecture. It is a framework provided by Java to enable developers to integrate cryptographic services into their applications securely. JCA allows seamless integration of various cryptographic algorithms, providers, and services, making it easier for developers to implement encryption, decryption, digital signatures, message authentication codes (MAC), and other cryptographic operations.
 
-Developers use Java Cryptography Architecture to combine the application with the security applications. Java Cryptography Architecture helps in implementing third party security rules and regulations. 
+Here's a brief overview along with a sample code of how JCA can be used in Java:
 
-Java Cryptography Architecture uses the hash table, encryption message digest, etc. to implement the security.
+**1. Key Components of JCA:**
 
-### 108\. Explain JPA in Java.
+a. **Providers:** Providers are implementations of cryptographic algorithms and services. Java comes with a default provider (the "SunJCE" provider) that offers various algorithms. However, developers can add other third-party providers or implement custom providers to support additional algorithms.
+
+b. **Security API:** The `java.security` package contains classes and interfaces that form the foundation of the JCA.
+
+c. **Service Providers Interface (SPI):** JCA uses the SPI mechanism to allow providers to register their services in a dynamic and pluggable way.
+
+**2. Sample Code:**
+
+Below is a simple Java code that demonstrates using JCA for encryption and decryption using the AES algorithm:
+
+```java
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
+public class JCAExample {
+    public static void main(String[] args) throws Exception {
+        String plainText = "Hello, JCA!"; // The text to be encrypted
+
+        // Generate a secret key for AES encryption
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        keyGenerator.init(128); // 128-bit key size
+        SecretKey secretKey = keyGenerator.generateKey();
+
+        // Create a cipher instance for AES encryption
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+
+        // Encrypt the plain text
+        byte[] encryptedText = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
+
+        // Print the encrypted text
+        System.out.println("Encrypted Text: " + Base64.getEncoder().encodeToString(encryptedText));
+
+        // Now let's decrypt the encrypted text
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] decryptedText = cipher.doFinal(encryptedText);
+
+        // Print the decrypted text
+        System.out.println("Decrypted Text: " + new String(decryptedText, StandardCharsets.UTF_8));
+    }
+}
+```
+
+In this example, we use the AES algorithm for encryption and decryption. We generate a secret key using the `KeyGenerator` class, create a `Cipher` instance for AES, and then use it to encrypt the plaintext. We print the encrypted text and then decrypt it back to the original plaintext. The `Base64` class is used to encode the binary data to a printable string representation.
+
+---
+### > Explain JPA in Java.
 
 The Java Persistence API enables us to create the persistence layer for desktop and web applications. Java Persistence deals in the following:
 
@@ -200,6 +303,51 @@ The Java Persistence API enables us to create the persistence layer for desktop 
 2.  Query Language
 3.  Java Persistence Criteria API
 4.  Object Mapping Metadata
+
+```java
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private double price;
+
+    // Getters and setters, constructors, etc.
+}
+```
+
+```java
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class JpaExample {
+    public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
+        EntityManager em = emf.createEntityManager();
+
+        Product product = new Product();
+        product.setName("Example Product");
+        product.setPrice(19.99);
+
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(product);
+        transaction.commit();
+
+        em.close();
+        emf.close();
+    }
+}
+```
 
 ### 109\. Explain the different authentications in Java Servlets.
 
