@@ -349,31 +349,8 @@ public class JpaExample {
 }
 ```
 
-### 109\. Explain the different authentications in Java Servlets.
-
-Authentication options are available in Servlets: There are four different options for authentication in servlet:
-
-*   #### Basic Authentication: 
-    
-
-Usernames and passwords are given by the client to authenticate the user.
-
-*   #### Form-based authentication: 
-    
-
-In this, the login form is made by the programmer by using HTML.
-
-*   #### Digest Authentication: 
-    
-
-It is similar to basic authentication, but the passwords are encrypted using the Hash formula. Hash Formula makes digest more secure.
-
-*   #### Client certificate Authentication:
-    
-
-It requires that each client accessing the resource has a certificate that it sends to authenticate itself. Client Authentication requires the SSL protocol.
-
-### 110\. Explain FailFast iterator and FailSafe iterator along with examples for each.
+---
+### > Explain the FailFast iterator and FailSafe iterator along with examples for each.
 
 FailFast iterators and FailSafe iterators are used in Java Collections. 
 
@@ -385,152 +362,146 @@ Whereas, on the other hand, FailSafe iterators allow changes or modifications to
 
 Ex: CopyOnWriteArrayList
 
-### 111\. How do we reverse a string?
+**Example of Fail-Fast Iterator:**
+```java
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-The [string can be reversed](https://www.simplilearn.com/tutorials/java-tutorial/reverse-a-string-in-java "string can be reversed") by using the following program.
+public class FailFastIteratorExample {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("apple");
+        list.add("banana");
+        list.add("orange");
 
-package simplilearnJava;
+        Iterator<String> iterator = list.iterator();
 
-public class StringReverse {
+        while (iterator.hasNext()) {
+            String fruit = iterator.next();
+            System.out.println(fruit);
 
-public static void main(String args\[\]) {
-
-String str = "Simplilearn";
-
-String reverse = new StringBuffer(str).reverse().toString();
-
-System.out.printf("Actual Word: %s, Word after reversing %s", str, reverse);
-
+            // This line will throw ConcurrentModificationException
+            list.remove(fruit);
+        }
+    }
 }
+```
 
-public static String reverse(String source) {
+**Example of Fail-Safe Iterator:**
 
-if (source == null || source.isEmpty()) {
+```java
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
-return source;
+public class FailSafeIteratorExample {
+    public static void main(String[] args) {
+        ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
+        map.put(1, "one");
+        map.put(2, "two");
+        map.put(3, "three");
 
+        Iterator<Integer> iterator = map.keySet().iterator();
+
+        while (iterator.hasNext()) {
+            Integer key = iterator.next();
+            System.out.println(key + ": " + map.get(key));
+
+            // Safe to modify the map while iterating
+            map.put(4, "four");
+        }
+    }
 }
+```
+In summary, Fail-Fast iterators quickly detect any concurrent modifications to the collection and raise exceptions to avoid potential data corruption, while Fail-Safe iterators work on a copied version of the collection and continue iterating without any exceptions even if the collection is modified. The choice between Fail-Fast and Fail-Safe iterators depends on the specific use case and the desired behavior of the iterator in concurrent scenarios.
 
-String reverse = "";
+---
+### > How do we reverse a string?
 
-for (int i = source.length() - 1; i >= 0; i--) {
+```java
+public class StringReversal {
+    public static String reverseString(String str) {
+        StringBuilder reversedString = new StringBuilder();
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversedString.append(str.charAt(i));
+        }
+        return reversedString.toString();
+    }
 
-reverse = reverse + source.charAt(i);
-
+    public static void main(String[] args) {
+        String originalString = "Hello, World!";
+        String reversedString = reverseString(originalString);
+        System.out.println("Original String: " + originalString);
+        System.out.println("Reversed String: " + reversedString);
+    }
 }
+```
 
-return reverse;
+---
+### > Write a program to find the square root of a number.
 
-}
-
-}
-
-Expected Output:
-
-Actual Word: Simplilearn, Word after reversing nraelilpmiS
-
-### 112\. Write a program to find the square root of a number.
-
-The Square root of a number can be found by using the following program.
-
-package simplilearnJava;
-
+```java
 import java.util.Scanner;
 
-public class SRoot {
-
-public static void main(String args\[\]) {
-
-try (Scanner sc = new Scanner(System.in)) {
-
-System.out.println("Input a number to find square root: ");
-
-double square = sc.nextDouble();
-
-double squareRoot = Math.sqrt(square);
-
-System.out.printf("The square root is: %f ", squareRoot);
-
+public class SquareRootFinder {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number to find its square root: ");
+        double number = scanner.nextDouble();
+        
+        if (number < 0) {
+            System.out.println("Cannot find the square root of a negative number.");
+        } else {
+            double squareRoot = Math.sqrt(number);
+            System.out.println("Square root of " + number + " is: " + squareRoot);
+        }
+        
+        scanner.close();
+    }
 }
-
-}
-
-}
+```
 
 Expected Output:
-
-Input a number to find square root: 
-
-25
-
+Input a number to find square root: 25
 The square root is: 5
 
-### 113\. Write a program that detects the duplicate characters in a string.
+---
+### > Write a program that detects duplicate characters in a string.
 
-The program that finds the duplicate elements in a string is written below:
-
-package simplilearnJava;
-
+```java
 import java.util.HashMap;
-
 import java.util.Map;
 
-import java.util.Set;
+public class DuplicateCharacterDetector {
+    public static void main(String[] args) {
+        String inputString = "Hello, World!";
+        Map<Character, Integer> charFrequencyMap = new HashMap<>();
 
-public class FindDuplicate {
+        // Convert the string to lowercase to make the detection case-insensitive
+        inputString = inputString.toLowerCase();
 
-public static void main(String args\[\]) {
+        // Loop through each character in the input string
+        for (char ch : inputString.toCharArray()) {
+            // Ignore non-alphabetic characters and spaces
+            if (Character.isAlphabetic(ch)) {
+                // If the character is already present in the map, increment its frequency
+                // Otherwise, add it to the map with a frequency of 1
+                charFrequencyMap.put(ch, charFrequencyMap.getOrDefault(ch, 0) + 1);
+            }
+        }
 
-printDuplicateCharacters("Simplilearn");
-
+        // Display the duplicate characters and their frequencies
+        System.out.println("Duplicate characters in the string:");
+        for (Map.Entry<Character, Integer> entry : charFrequencyMap.entrySet()) {
+            if (entry.getValue() > 1) {
+                System.out.println("'" + entry.getKey() + "' appears " + entry.getValue() + " times.");
+            }
+        }
+    }
 }
+```
 
-public static void printDuplicateCharacters(String word) {
-
-char\[\] characters = word.toCharArray();
-
-Map<Character, Integer> charMap = new HashMap<Character, Integer>();
-
-for (Character ch : characters) {
-
-if (charMap.containsKey(ch)) {
-
-charMap.put(ch, charMap.get(ch) + 1);
-
-} else {
-
-charMap.put(ch, 1);
-
-}
-
-}
-
-Set<Map.Entry<Character, Integer>> entrySet = charMap.entrySet();
-
-System.out.printf("List of duplicate characters in String '%s' %n", word);
-
-for (Map.Entry<Character, Integer> entry : entrySet) {
-
-if (entry.getValue() > 1) {
-
-System.out.printf("%s: %d %n", entry.getKey(), entry.getValue());
-
-}
-
-}
-
-}
-
-}
-
-Expected output:
-
-List of duplicate characters in String 'Simplilearn.' 
-
-i: 2 
-
-l: 2 
-
+---
 ### 114\. Write a Program to remove duplicates in an ArrayList.
 
 The following program can be implemented to remove duplicate elements in an ArrayList
