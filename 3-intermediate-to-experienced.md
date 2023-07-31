@@ -114,11 +114,6 @@ Please note that in a real application, you should use try-with-resources or pro
 ---
 ### > What are the observer and observable classes?
 
-Objects that inherit the "Observable class" take care of a list of "observers." 
-When an Observable object gets upgraded, it calls the update() method of each of its observers. 
-After that, it notifies all the observers that there is a change of state. 
-The Observer interface gets implemented by objects that observe Observable objects.
-
 In Java, the Observer pattern is a behavioral design pattern that allows one object (the "subject" or "observable") to notify multiple dependent objects (the "observers") of any state changes it undergoes. The Observer pattern helps to establish a one-to-many dependency between objects, where the observers automatically update their state when the subject changes.
 
 To implement the Observer pattern in Java, there are two main classes involved:
