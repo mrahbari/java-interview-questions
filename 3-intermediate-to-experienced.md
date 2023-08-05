@@ -690,60 +690,50 @@ public class Dictionary {
 }
 ```
 
-### 119\. How would you tackle it if you might have to encounter pattern programs in Java?
+---
+### > What do you understand by an instance variable and a local variable?
 
-Solution - [Top 25 Most Frequently asked Pattern Programs in Java](https://www.simplilearn.com/tutorials/java-tutorial/pattern-programs-in-java "Top 25 Most Frequently asked Pattern Programs in Java")
+In Java, instance variables and local variables are two types of variables used within classes and methods, respectively. They have distinct scopes, lifetimes, and purposes in the program.
 
-With this, we have come to the end of this Java Interview Questions article. Moving ahead, we will look into the next crucial steps that you could pursue, to master Java.
+1. Instance Variable:
+An instance variable, also known as a member variable or a field, is a variable defined within a class but outside any method. Each instance of the class (object) has its own copy of these variables. Instance variables hold the state or attributes of an object, and they exist for the entire lifetime of the object. They are used to represent the characteristics that are unique to each object of the class.
 
-### 120\. What do you understand by an instance variable and a local variable?
-
-Generally, instance variables are declared in a class but outside methods whereas a local variable is declared within the blocks of code.
-
-//Local Variable
-
-import Java.io.\*;
-
-class Main {
-
-public static void main(String\[\] args)
-
-{
-
-int var = 145;
-
-System.out.println("Local Variable: " + var);
-
+Example of an instance variable:
+```java
+public class Person {
+    String name; // instance variable
+    int age;     // instance variable
 }
+```
 
+In this example, `name` and `age` are instance variables of the `Person` class. Each `Person` object will have its own separate `name` and `age` values.
+
+2. Local Variable:
+A local variable is a variable defined within a method, constructor, or block of code. Local variables have limited scope, meaning they are only accessible within the method, constructor, or block where they are defined. They are created when the method is invoked and cease to exist once the method execution completes. Local variables are used to store temporary data or perform intermediate calculations within a method.
+
+Example of a local variable:
+```java
+public void calculateSum() {
+    int a = 5; // local variable
+    int b = 10; // local variable
+    int sum = a + b; // local variable
+    System.out.println("Sum: " + sum);
 }
+```
 
-//Instance variable
+In this example, `a`, `b`, and `sum` are local variables within the `calculateSum` method. They are only accessible within the scope of the method and will be discarded once the method finishes executing.
 
-import Java.io.\*;
+In summary, instance variables are associated with objects and represent their attributes, while local variables are used for temporary storage and calculations within methods.
 
-class Main {
-
-public int value = 12;
-
-public static void main(String\[\] args)
-
-{
-
-Main va = new Main();
-
-System.out.println("My value is: " + va.value);
-
-}
-
-}
-
-### 121\. Can the main method be overloaded?
+---
+### > Can the main method be overloaded?
 
 Yes, the main method can be overloaded as many times as we want. Nevertheless, JVM prefers to call the main method with the help of its predefined calling method. 
 
-Example:
+While you can overload the main method, only the method with the standard String[] parameter will serve as the entry point when you run the program from the command line or an IDE. Overloaded main methods with different parameter types won't be invoked by the JVM when starting the program.
 
+Example:
+```java
 class Main {
 
     public static void main(String args\[\]) {
@@ -775,8 +765,8 @@ class Main {
         System.out.println("Overloaded float Main Method");
 
     }
-
 }
+```
 
 ### 122\. Comment on method overloading and overriding by citing relevant examples.
 
