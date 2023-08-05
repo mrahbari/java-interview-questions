@@ -502,109 +502,71 @@ public class DuplicateCharacterDetector {
 ```
 
 ---
-### 114\. Write a Program to remove duplicates in an ArrayList.
-
-The following program can be implemented to remove duplicate elements in an ArrayList
-
-package simplilearnJava;
-
+### > Write a Program to remove duplicates in an ArrayList.
+```java
 import java.util.ArrayList;
+import java.util.HashSet;
 
-import java.util.LinkedHashSet;
-
-import java.util.List;
-
-import java.util.Set;
-
-public class ArrayDuplicate {
-
-public static void main(String args\[\]) {
-
-List<Integer> num = new ArrayList<Integer>();
-
-num.add(1);
-
-num.add(2);
-
-num.add(3);
-
-num.add(4);
-
-num.add(5);
-
-num.add(6);
-
-num.add(3);
-
-num.add(4);
-
-num.add(5);
-
-num.add(6);
-
-System.out.println("Your list of elements in ArrayList : " + num);
-
-Set<Integer> primesWithoutDuplicates = new LinkedHashSet<Integer>(num);
-
-num.clear();
-
-num.addAll(primesWithoutDuplicates);
-
-System.out.println("list of original numbers without duplication: " + num);
-
+public class RemoveDuplicates {
+    public static void main(String[] args) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(1);
+        arrayList.add(2);
+        arrayList.add(3);
+        arrayList.add(2);
+        arrayList.add(4);
+        arrayList.add(1);
+        
+        System.out.println("Original ArrayList: " + arrayList);
+        
+        ArrayList<Integer> uniqueList = removeDuplicates(arrayList);
+        
+        System.out.println("ArrayList with Duplicates Removed: " + uniqueList);
+    }
+    
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) {
+        // Create a HashSet to store unique elements
+        HashSet<T> uniqueElements = new HashSet<>(list);
+        
+        // Create a new ArrayList from the unique elements
+        ArrayList<T> result = new ArrayList<>(uniqueElements);
+        
+        return result;
+    }
 }
+```
 
-}
+---
+### > Find the word count in a string using HashMap Collection.
 
-Expected Output:
-
-Your list of elements in ArrayList : \[1, 2, 3, 4, 5, 6, 3, 4, 5, 6\]
-
-list of original numbers without duplication: \[1, 2, 3, 4, 5, 6\]
-
-### 115\. Find the word count in a string using HashMap Collection.
-
-The following program can be used for word count.
-
-package simplilearnJava;
-
+```
 import java.util.HashMap;
 
 public class WordCount {
-
-public static void main(String\[\] args) {
-
-String str = "Hello World, Welcome to Simplilearn";
-
-String\[\] split = str.split(" ");
-
-HashMap<String, Integer> map = new HashMap<String, Integer>();
-
-for (int i = 0; i < split.length; i++) {
-
-if (map.containsKey(split\[i\])) {
-
-int count = map.get(split\[i\]);
-
-map.put(split\[i\], count + 1);
-
-} else {
-
-map.put(split\[i\], 1);
-
+    public static void main(String[] args) {
+        String inputString = "Hello world, how are you? Hello world!";
+        
+        HashMap<String, Integer> wordCountMap = countWords(inputString);
+        
+        System.out.println("Word Count Map: " + wordCountMap);
+    }
+    
+    public static HashMap<String, Integer> countWords(String input) {
+        HashMap<String, Integer> wordCountMap = new HashMap<>();
+        
+        String[] words = input.split("\\s+"); // Split the input string into words
+        
+        for (String word : words) {
+            word = word.replaceAll("[^a-zA-Z]", "").toLowerCase(); // Remove non-alphabetic characters and convert to lowercase
+            if (!word.isEmpty()) { // Ignore empty words
+                wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
+            }
+        }
+        
+        return wordCountMap;
+    }
 }
-
-}
-
-System.out.println(map);
-
-}
-
-}
-
-Expected Output:
-
-{Hello=1, Simplilearn=1, Welcome=1, to=1, World,=1}
+```
 
 ### 116\. Write a program to find the Second Highest number in an ArrayList
 
