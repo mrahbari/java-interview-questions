@@ -972,135 +972,430 @@ When deciding between shallow copy and deep copy, consider the relationships bet
 ---
 ### > Using relevant properties highlight the differences between interfaces and abstract classes.
 
-An abstract class can have a combination of both abstract and non-abstract methods, whereas an interface has only abstract methods in it.
+Interfaces and abstract classes are both important concepts in object-oriented programming, but they serve different purposes and have distinct properties. Here's a comparison highlighting the key differences between interfaces and abstract classes using relevant properties:
 
-### 128\. What are the different ways of thread usage? 
+1. **Purpose:**
+   - **Interfaces:** Provide a contract that classes must adhere to. They define a set of method signatures that concrete classes implementing the interface must provide.
+   - **Abstract Classes:** Serve as a base for other classes. They can provide a partial implementation of a class along with method declarations that subclasses must implement.
 
-There are two ways to define and implement a thread in Java. They are by implementing the runnable interface and extending the thread class.
+2. **Method Implementation:**
+   - **Interfaces:** Only define method signatures. They don't provide any method implementations.
+   - **Abstract Classes:** Can include both abstract (unimplemented) methods and fully implemented methods.
 
-Extending the Thread class
+3. **Multiple Inheritance:**
+   - **Interfaces:** Allow a class to implement multiple interfaces, enabling a form of multiple inheritance.
+   - **Abstract Classes:** A class can extend only one abstract class due to the limitations of single inheritance in Java.
 
-class InterviewBitThreadExample extends Thread{  
+4. **Fields:**
+   - **Interfaces:** Can't have instance fields (variables) other than constants (static final fields).
+   - **Abstract Classes:** Can have instance fields of any visibility, including private fields.
 
-   public void run(){  
+5. **Constructor:**
+   - **Interfaces:** Don't have constructors, as they can't be instantiated directly.
+   - **Abstract Classes:** Can have constructors, which are used when subclasses are instantiated.
 
-       System.out.println("Thread runs...");  
+6. **Access Modifiers:**
+   - **Interfaces:** Methods are implicitly `public` and `abstract` (unless using Java 8's default methods).
+   - **Abstract Classes:** Methods can have various access modifiers (public, protected, private, etc.).
 
-   }  
+7. **Inheritance:**
+   - **Interfaces:** Implementing a new interface doesn't affect the class hierarchy of implementing classes.
+   - **Abstract Classes:** Subclasses inherit the structure of the abstract class and may need to provide concrete implementations.
 
-   public static void main(String args\[\]){  
+8. **Extensibility:**
+   - **Interfaces:** Can be implemented by unrelated classes, providing more flexibility for class design.
+   - **Abstract Classes:** Provide a base that's more tightly coupled to the subclasses, potentially restricting flexibility.
 
-       InterviewBitThreadExample ib = new InterviewBitThreadExample();  
+9. **Versioning:**
+   - **Interfaces:** Changes to interfaces might require all implementing classes to be updated.
+   - **Abstract Classes:** Changes can be made to abstract classes without necessarily affecting existing subclasses.
 
-       ib.start();  
+10. **Usage:**
+    - **Interfaces:** Useful when you want to define a contract across multiple unrelated classes or when implementing multiple behaviors.
+    - **Abstract Classes:** Useful when you want to provide a common base with some shared implementation for a related group of classes.
 
-   }  
+In summary, interfaces focus on defining contracts and multiple inheritance, while abstract classes focus on providing a base structure for related classes and allow a mix of method signatures and implementations. The choice between interfaces and abstract classes depends on the specific design goals and requirements of your software.
 
-}
+---
+### > What are the different ways of thread usage? 
 
-Implementing the Runnable interface
+In Java, there are several ways to use threads for concurrent execution. Threads allow you to execute multiple tasks concurrently, potentially improving the overall performance and responsiveness of your application. Here are some common ways of using threads:
 
-class InterviewBitThreadExample implements Runnable{  
+1. **Extending the Thread Class:**
+   You can create a new class that extends the `Thread` class and override its `run()` method to define the code that the thread should execute. Then, you can create instances of your custom thread class and start them using the `start()` method.
 
-   public void run(){  
+   ```java
+   class MyThread extends Thread {
+       public void run() {
+           // Code to be executed by the thread
+       }
+   }
 
-       System.out.println("Thread runs...");  
+   public class Main {
+       public static void main(String[] args) {
+           MyThread thread1 = new MyThread();
+           MyThread thread2 = new MyThread();
 
-   }  
+           thread1.start();
+           thread2.start();
+       }
+   }
+   ```
 
-   public static void main(String args\[\]){  
+2. **Implementing the Runnable Interface:**
+   Another way is to implement the `Runnable` interface and provide the thread's behavior in the `run()` method. This approach is often preferred over extending the `Thread` class because it allows you to avoid the limitations of single inheritance.
 
-       Thread ib = new Thread(new InterviewBitThreadExample()); 
+   ```java
+   class MyRunnable implements Runnable {
+       public void run() {
+           // Code to be executed by the thread
+       }
+   }
 
-       ib.start();  
+   public class Main {
+       public static void main(String[] args) {
+           MyRunnable runnable = new MyRunnable();
+           Thread thread1 = new Thread(runnable);
+           Thread thread2 = new Thread(runnable);
 
-   }  
+           thread1.start();
+           thread2.start();
+       }
+   }
+   ```
 
-}
+3. **Using Java Executor Framework:**
+   The `java.util.concurrent` package provides a higher-level abstraction for managing thread execution through the `Executor` framework. This allows you to submit tasks for execution without dealing directly with thread management. Common implementations include `ThreadPoolExecutor` and `Executors`.
 
-Implementing a thread using the method of Runnable interface is more preferred and advantageous as Java does not have support for multiple inheritances of classes.
+   ```java
+   import java.util.concurrent.ExecutorService;
+   import java.util.concurrent.Executors;
 
-start() method is used for creating a separate call stack for the thread execution. Once the call stack is created, JVM calls the run() method for executing the thread in that call stack.
+   public class Main {
+       public static void main(String[] args) {
+           ExecutorService executor = Executors.newFixedThreadPool(2);
 
-### 129\. What is the difference between the ‘throw' and ‘throws' keyword in Java?
+           Runnable task1 = () -> {
+               // Code for task 1
+           };
 
-The throw keyword is often used to explicitly throw an exception. It can only throw one exception at a time whereas throws can be used to declare multiple exceptions.
+           Runnable task2 = () -> {
+               // Code for task 2
+           };
 
-### 130\. Identify the output of the below Java program and Justify your answer.
+           executor.submit(task1);
+           executor.submit(task2);
 
+           executor.shutdown();
+       }
+   }
+   ```
+
+4. **Using Java Thread Pools:**
+   Thread pools are a way to manage a pool of worker threads that can execute tasks concurrently. They help avoid the overhead of creating and destroying threads for each task. Java's `ExecutorService` and `ThreadPoolExecutor` classes are commonly used to implement thread pools.
+
+   ```java
+   import java.util.concurrent.ExecutorService;
+   import java.util.concurrent.Executors;
+
+   public class Main {
+       public static void main(String[] args) {
+           ExecutorService executor = Executors.newFixedThreadPool(2);
+
+           for (int i = 0; i < 5; i++) {
+               Runnable task = () -> {
+                   // Code for the task
+               };
+               executor.submit(task);
+           }
+
+           executor.shutdown();
+       }
+   }
+   ```
+
+5. **Using Java Fork/Join Framework:**
+   The `java.util.concurrent` package also provides the Fork/Join framework, which is suitable for divide-and-conquer algorithms and recursive tasks. It's particularly useful for parallel processing on multi-core processors.
+
+   ```java
+   import java.util.concurrent.RecursiveTask;
+   import java.util.concurrent.ForkJoinPool;
+
+   class MyTask extends RecursiveTask<Integer> {
+       protected Integer compute() {
+           // Implement task logic here
+       }
+   }
+
+   public class Main {
+       public static void main(String[] args) {
+           ForkJoinPool forkJoinPool = new ForkJoinPool();
+           MyTask task = new MyTask();
+           int result = forkJoinPool.invoke(task);
+       }
+   }
+   ```
+
+Each of these approaches has its own advantages and use cases. The choice of which method to use depends on the specific requirements of your application and the complexity of the concurrent tasks you need to manage.
+
+
+---
+### > What is the difference between the ‘throw' and ‘throws' keyword in Java?
+In Java, both the `throw` and `throws` keywords are used in exception handling, but they serve different purposes and are used in different contexts:
+
+1. **`throw` Keyword:**
+   The `throw` keyword is used to explicitly throw an exception from a method or a block of code. It is used when you want to create and throw a specific exception manually. When you use `throw`, you provide an instance of an exception class that represents the type of exception you want to throw.
+
+   Syntax:
+   ```java
+   throw exceptionInstance;
+   ```
+
+   Example:
+   ```java
+   public void divide(int numerator, int denominator) {
+       if (denominator == 0) {
+           throw new ArithmeticException("Cannot divide by zero");
+       }
+       // Perform division
+   }
+   ```
+
+2. **`throws` Keyword:**
+   The `throws` keyword is used in a method signature to declare that the method might throw one or more types of exceptions. It is used to indicate the possible exceptions that a method can throw to the calling code. When you use `throws`, you specify the exceptions as part of the method's declaration.
+
+   Syntax:
+   ```java
+   returnType methodName(parameters) throws exceptionType1, exceptionType2, ... {
+       // Method implementation
+   }
+   ```
+
+   Example:
+   ```java
+   public void readFile(String filePath) throws IOException {
+       // Code to read from the file
+   }
+   ```
+
+In summary:
+
+- `throw` is used to manually throw an exception instance when a specific condition is met within the code. It is used within a method or a block of code.
+- `throws` is used in a method signature to declare that the method may throw specific types of exceptions. It is part of the method's declaration and provides information to callers about potential exceptions.
+
+Remember that using `throws` in a method signature doesn't actually throw an exception; it simply declares that the method could potentially throw the specified exceptions. The actual throwing of exceptions is done using the `throw` keyword within the method's implementation.
+
+---
+### > Identify the output of the below Java program and Justify your answer.
+
+```java
 class Main {
-
     public static void main(String args\[\]) {
-
         Scaler s = new Scaler(5);
-
     }
-
 }
 
 class InterviewBit{
-
     InterviewBit(){
-
-        System.out.println(" Welcome to InterviewBit ");
-
+       System.out.println(" Welcome to InterviewBit ");
     }
-
 }
 
 class Scaler extends InterviewBit{
-
     Scaler(){
-
         System.out.println(" Welcome to Scaler Academy ");
-
     }
 
     Scaler(int x){
-
         this();
-
         super();
-
         System.out.println(" Welcome to Scaler Academy 2");
-
     }
-
 }
 
-The above code will throw the compilation error. It is because the super() is used to call the parent class constructor. But there is the condition that super() must be the first statement in the block. Now in this case, if we replace this() with super() then also it will throw the compilation error. Because this() also has to be the first statement in the block. So in conclusion, we can say that we cannot use this() and super() keywords in the same block.
+Answer:
+The provided Java program will result in a compilation error.
 
-### 131\. Java works as a “pass by value” or “pass by reference” phenomenon?
+Explanation:
+In Java, when you explicitly use the `super()` constructor call, it must be the first statement in the constructor body. However, in the `Scaler(int x)` constructor, the `super()` call is not the first statement; it is preceded by the `this()` constructor call. This violates the rule that `super()` must be the first statement in the constructor.
 
-Java works as a “pass by value” phenomenon, because “pass by reference” needs the help of pointers. But there are no pointers in Java.
+Here's the problematic part of the `Scaler(int x)` constructor:
 
-### 132\. How to not allow serialization of attributes of a class in Java?
+```java
+Scaler(int x){
+    this();      // Constructor call to the same class (OK)
+    super();     // Compilation error: super() must be the first statement
+    System.out.println(" Welcome to Scaler Academy 2");
+}
+```
+
+Since the `super()` call is not the first statement, the Java compiler will raise a compilation error, and the program will not compile successfully.
+
+To fix this issue, you need to ensure that the `super()` call is the first statement in the constructor:
+
+```java
+Scaler(int x){
+    super();     // Correct position for super() call
+    this();
+    System.out.println(" Welcome to Scaler Academy 2");
+}
+```
+
+However, keep in mind that even after fixing the compilation error, the program will still result in an infinite loop of constructor calls because of the recursive `this()` call followed by the `super()` call. This will lead to a `StackOverflowError` during runtime.
+
+
+### > Java works as a “pass by value” or “pass by reference” phenomenon?
+
+Java works as a "pass by value" phenomenon. This means that when you pass arguments to a method, you are passing the values of those arguments, not references to the actual variables.
+
+However, the confusion often arises because of how objects are handled. When you pass an object to a method, you are passing the value of the reference to the object, not the actual object itself. This can make it appear as if Java is passing objects by reference, but in reality, it's still passing the reference by value.
+
+Here's a breakdown of the two scenarios:
+
+1. **Pass by Value:**
+   When you pass primitive data types (like `int`, `double`, `char`, etc.) to a method, you are passing the actual value of the variable.
+
+   ```java
+   void modifyValue(int x) {
+       x = 10;  // This won't affect the original value outside the method
+   }
+
+   public static void main(String[] args) {
+       int num = 5;
+       modifyValue(num);
+       System.out.println(num);  // Output: 5
+   }
+   ```
+
+2. **Pass by Value (Reference):**
+   When you pass objects (including arrays) to a method, you are passing the value of the reference to the object, not the actual object. This means changes made to the object's state within the method will affect the original object.
+
+   ```java
+   void modifyArray(int[] arr) {
+       arr[0] = 10;  // This will affect the original array outside the method
+   }
+
+   public static void main(String[] args) {
+       int[] numbers = {5, 7, 9};
+       modifyArray(numbers);
+       System.out.println(numbers[0]);  // Output: 10
+   }
+   ```
+
+In the second example, while Java is passing the value of the reference to the array, any changes made to the array's contents within the method will affect the original array outside the method. This can sometimes lead to the misconception that Java is passing objects by reference.
+
+In summary, Java employs "pass by value" for both primitive data types and objects. When dealing with objects, it's the value of the reference to the object that is being passed.
+
+---
+### > How to not allow serialization of attributes of a class in Java?
 
 One approach to not allow serialization of attributes of a class in Java is by using writeObject() and readObject() methods in the subclass and throwing a not Serializable exception.
 
-### 133\. What are the default values assigned to variables and instances in Java?
+In Java, you can prevent the serialization of attributes of a class by using the `transient` keyword. The `transient` keyword is used to indicate that a field should not be serialized when the object is being written to a persistent storage like a file or transmitted over a network.
 
-By default, for a numerical value it is 0, for the boolean value it is false and for objects it is NULL.
+When you mark a field as `transient`, its value will not be included in the serialized representation of the object. During deserialization, the transient field will be set to its default value (null for reference types, and zero/false for primitive types).
 
-### 134\. What do you mean by data encapsulation?
+Here's an example of how to use the `transient` keyword to prevent serialization of a specific attribute:
 
-Data encapsulation is one of the properties of OOPS concepts, where all the data such as variables and methods are enclosed together as a single unit.
+```java
+import java.io.*;
 
-### 135\. Can you tell the difference between equals() method and equality operator (==) in Java?
+class MyClass implements Serializable {
+    // This field will not be serialized
+    transient int transientField;
 
+    // This field will be serialized
+    int regularField;
+
+    MyClass(int transientValue, int regularValue) {
+        this.transientField = transientValue;
+        this.regularField = regularValue;
+    }
+}
+
+public class SerializationExample {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass(10, 20);
+
+        // Serialize the object
+        try {
+            FileOutputStream fileOut = new FileOutputStream("object.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(obj);
+            out.close();
+            fileOut.close();
+            System.out.println("Object serialized successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Deserialize the object
+        try {
+            FileInputStream fileIn = new FileInputStream("object.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            MyClass newObj = (MyClass) in.readObject();
+            in.close();
+            fileIn.close();
+            System.out.println("Object deserialized successfully");
+            System.out.println("Transient Field: " + newObj.transientField);  // Output: 0
+            System.out.println("Regular Field: " + newObj.regularField);      // Output: 20
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this example, the `transientField` is marked as `transient`, so it will not be serialized and will have a default value during deserialization. The `regularField` is not marked as `transient`, so it will be serialized and deserialized as expected.
+
+### > What are the default values assigned to variables and instances in Java?
+
+In Java, variables (including instance variables) are assigned default values if they are not explicitly initialized. Here are the default values for different types of variables:
+
+1. **Instance Variables (Non-static Fields):**
+   - Numeric types (e.g., `int`, `double`, `float`, `byte`, etc.): 0
+   - `char`: '\u0000' (null character)
+   - `boolean`: `false`
+   - Object references (including arrays): `null`
+
+2. **Static Variables (Class Variables):**
+   - Same as instance variables, i.e., they are assigned the same default values.
+
+3. **Local Variables:**
+   - Local variables do not receive default values. They must be explicitly initialized before use, or the compiler will report an error.
+
+---
+### > What do you mean by data encapsulation?
+Data encapsulation, often referred to as encapsulation, is one of the fundamental principles of object-oriented programming (OOP). It involves bundling data (attributes) and methods (functions) that operate on the data into a single unit, known as a class. The key idea behind encapsulation is to hide the internal details of an object and provide a well-defined interface through which the outside world can interact with the object.
+
+Encapsulation serves several important purposes in software design:
+
+1. **Abstraction:** Encapsulation allows you to represent real-world entities or concepts as objects, abstracting away unnecessary details and focusing on essential properties and behaviors.
+
+2. **Data Protection:** By encapsulating data within an object, you can control access to the data and enforce rules for its manipulation. This helps prevent unauthorized or unintended modifications.
+
+3. **Modularity:** Encapsulation promotes modular design, where each class encapsulates a specific set of functionalities. This makes it easier to manage and maintain the codebase, as changes to one class have limited impact on other parts of the program.
+
+4. **Code Organization:** Encapsulation promotes a clear separation of concerns, making the codebase more organized and understandable. Clients of an object only need to know about its public interface, not its internal implementation.
+
+5. **Flexibility and Maintenance:** By encapsulating data and methods, you can modify the internal implementation of a class without affecting the external code that uses the class. This provides a level of flexibility and reduces the risk of unintended side effects when making changes.
+
+In languages like Java, encapsulation is achieved through the use of access modifiers (such as `private`, `protected`, and `public`) to control the visibility of class members (fields and methods) and by providing well-defined getter and setter methods to manipulate the data. By using encapsulation, you can create robust, maintainable, and reusable code that effectively models real-world concepts and hides implementation details from the outside world.
+
+---
+### > Can you tell the difference between equals() method and equality operator (==) in Java?
 Equality operator (==) is used to check the equality condition between two variables. But the equals() method is used to check the equality condition between two objects.
 
+---
 ### 136\. How is an infinite loop declared in Java?
 
 An infinite loop can be declared in Java by breaking the logic in the instruction block.  For example,
-
+```java
 for(int i = 1; i > 0; i++)
-
 {
-
 //statements
-
 }
+```
 
 The above code forms an infinite loop in Java.
 
