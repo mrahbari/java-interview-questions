@@ -768,90 +768,141 @@ class Main {
 }
 ```
 
-### 122\. Comment on method overloading and overriding by citing relevant examples.
+---
+### > Comment on method overloading and overriding by citing relevant examples.
 
-Method overloading occurs during the compile time, whereas method overriding occurs during the run time. Static binding is used during overloading, whereas dynamic binding is used during methods overriding.
+*** Method Overloading:***
+Method overloading refers to the practice of defining multiple methods in the same class with the same name but different parameter lists. Overloaded methods have different parameter types, order, or number of parameters.
 
-//Function overloading
+Example of method overloading:
+```java
+public class MathOperations {
+    public int add(int a, int b) {
+        return a + b;
+    }
 
-#function1
+    public double add(double a, double b) {
+        return a + b;
+    }
+}
+```
+*** Method Overriding:***
+Method overriding occurs when a subclass provides a specific implementation for a method that is already defined in its superclass. The overriding method must have the same method signature (name, return type, and parameter list) as the overridden method in the superclass.
 
-void addPodium(int a, int b)
-
-{
-
-System.out.println(a + b);
-
+Example of method overriding:
+```java
+class Animal {
+    void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
 }
 
-#function2
+class Dog extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+Here's a brief comparison:
+|   | Method Overloading | Method Overriding |
+|---|--------------------|-------------------|
+| Definition | Defining multiple methods in the same class with the same name but different parameter lists. | Providing a specific implementation for a method that is already defined in the superclass. |
+| Inheritance | Not related to inheritance; occurs within the same class. | Involves subclass and superclass relationship. |
+| Parameter List | Different parameter types, order, or number of parameters. | Same method signature (name, return type, and parameter list). |
+| Decision | Decided at compile-time (static polymorphism). | Decided at runtime (dynamic polymorphism). |
 
-float addPodium(float a, float b, float c)
+Both method overloading and overriding are important concepts in Java's object-oriented programming, and they provide flexibility and extensibility in designing and structuring your classes and their behavior.
 
-{
 
-System.out.println(a + b + c);
+---
+### > A single try block and multiple catch blocks can co-exist in a Java Program. Explain.
+Yes, in Java, a single `try` block can be followed by multiple `catch` blocks to handle different types of exceptions that might be thrown within the `try` block. This feature allows you to handle various exceptions in a more organized and specific manner.
 
+Using multiple `catch` blocks allows you to handle different exceptions separately and provide more meaningful error messages or recovery mechanisms based on the specific exception types.
+
+```java
+public class ExceptionHandlingExample {
+    public static void main(String[] args) {
+        try {
+            int result = divide(10, 0);
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Caught ArithmeticException: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Caught Exception: " + e.getMessage());
+        }
+    }
+
+    public static int divide(int numerator, int denominator) {
+        return numerator / denominator;
+    }
+}
+```
+
+In this example, the `divide` method may throw an `ArithmeticException` when attempting to divide by zero. The `try` block in the `main` method attempts the division and is followed by two `catch` blocks: one for handling `ArithmeticException` and another for handling a more general `Exception`. Depending on the actual exception thrown, the appropriate `catch` block will be executed.
+
+---
+### > Do final, finally and finalize keywords have the same function?
+
+The `final`, `finally`, and `finalize` keywords in Java have different functions and serve different purposes.
+- `final`: Used to specify that something cannot be further modified or extended.
+- `finally`: Used in a `try`-`catch` statement to define a block of code that will be executed regardless of exceptions.
+- `finalize`: A method in the `Object` class used for object finalization before garbage collection.
+
+1. `final` Keyword:
+The `final` keyword is used to declare that a variable, method, or class cannot be further modified, overridden, or extended, respectively.
+
+- When applied to a variable, it makes the variable a constant, meaning its value cannot be changed once initialized.
+- When applied to a method, it prevents the method from being overridden by subclasses.
+- When applied to a class, it prevents the class from being subclassed.
+
+Example:
+```java
+final int constantValue = 10;
+
+final class FinalClass {
+    // ...
 }
 
-//Function overriding
-
-class Parent {
-
-    void show()
-
-    {
-
-        System.out.println("I am Parent");
-
-    }
-
+class SubClass extends FinalClass { // Error: Cannot extend final class
+    // ...
 }
+```
 
-class Child extends Parent {
+2. `finally` Block:
+The `finally` block is used in a `try`-`catch` statement to define a code block that will be executed regardless of whether an exception is thrown or not. It is often used for cleanup operations like closing resources (e.g., files, network connections) or releasing acquired locks.
 
-    void show()
-
-    {
-
-        System.out.println("I am Child");
-
-    }
-
+Example:
+```java
+try {
+    // Some code that may throw an exception
+} catch (Exception e) {
+    // Handle the exception
+} finally {
+    // Code in this block will be executed regardless of whether an exception occurred or not
+    // For example, resource cleanup
 }
+```
 
-class Main {
+3. `finalize` Method:
+The `finalize` method is a method defined in the `Object` class (the base class for all Java classes) and is used for finalization or cleanup of an object before it is garbage collected. It is called by the garbage collector when it determines that there are no more references to the object and it is about to be collected.
 
-    public static void main(String\[\] args)
+Example:
+```java
+class MyClass {
+    // ...
 
-    {
-
-        Parent obja = new Parent();
-
-        obja.show();
-
-        Parent objb = new Child();
-
-        objb.show();
-
-    }
-
+    @Override
+    protected void finalize() throws Throwable {
+        // Finalization code
+        // This method will be called before the object is garbage collected
+        super.finalize();
+    }
 }
+```
 
-### 123\. A single try block and multiple catch blocks can co-exist in a Java Program. Explain.
-
-One or more catch blocks can follow a try block. Each catch block must have a unique exception handler. So, if you want to perform multiple tasks in response to various exceptions, use the Java multi-catch block.
-
-### 124\. Do final, finally and finalize keywords have the same function?
-
-No, final, finally and finalize keywords have different functionalities.
-
-Final is used to restrict classes, variables, or methods, the final keyword.
-
-Finally is used to execute the code written inside the block without handling any exceptions.
-
-Finalize is used to call the function of the implementation of cleaning the garbage collection of an object. 
-
+---
 ### 125\. When can you use the "super" keyword?
 
 Basically, the super keyword is used to refer to the parent class. When there are the same fields in both parent and child classes, then one can use a super keyword to access data members of the parent class.
