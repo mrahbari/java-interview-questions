@@ -539,7 +539,7 @@ public class RemoveDuplicates {
 ---
 ### > Find the word count in a string using HashMap Collection.
 
-```
+```java
 import java.util.HashMap;
 
 public class WordCount {
@@ -568,97 +568,127 @@ public class WordCount {
 }
 ```
 
-### 116\. Write a program to find the Second Highest number in an ArrayList
+### > Write a program to find the Second Highest number in an ArrayList
 
-The following program can be used to find the second biggest number in an array list.
 
-package simplilearnJava;
+```java
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class NextHighest {
+public class SecondHighestNumber {
+    public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(10);
+        numbers.add(5);
+        numbers.add(20);
+        numbers.add(15);
+        numbers.add(25);
 
-public static void main(String\[\] args)
-
-    {
-
-        int array\[\] = { 1, 2, 3, 4, 11, 12, 13, 14, 21, 22, 23, 24, 31, 32};
-
-        int high = 0;
-
-        int nextHigh = 0;
-
-        System.out.println("The given array is:");
-
-        for (int i = 0; i < array.length; i++)
-
-        {
-
-            System.out.print(array\[i\] + "\\t");
-
-        }
-
-        for (int i = 0; i < array.length; i++)
-
-        {
-
-            if (array\[i\] > high)
-
-            {
-
-                nextHigh = high;
-
-                high = array\[i\];
-
-            }
-
-            else if (array\[i\] > nextHigh)
-
-            {
-
-                nextHigh = array\[i\];
-
-            }
-
-        }
-
-        System.out.println("Second Highest is:" + nextHigh);
-
-        System.out.println("Highest Number is: "  +high);
-
-    }
-
+        int secondHighest = findSecondHighest(numbers);
+        
+        System.out.println("Second Highest Number: " + secondHighest);
+    }
+    
+    public static int findSecondHighest(ArrayList<Integer> list) {
+        if (list.size() < 2) {
+            throw new IllegalArgumentException("List should contain at least two numbers");
+        }
+        
+        // Sort the list in descending order
+        Collections.sort(list, Collections.reverseOrder());
+        
+        // The second highest number will be at index 1 after sorting
+        return list.get(1);
+    }
 }
+```
+OR
+```java
+import java.util.ArrayList;
 
-Expected Output:
+public class SecondHighestNumberWithoutSort {
+    public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(10);
+        numbers.add(5);
+        numbers.add(20);
+        numbers.add(15);
+        numbers.add(25);
 
-The given array is:
+        int secondHighest = findSecondHighest(numbers);
 
-1 2 3 4 11 12 13 14 21 22 23 24 31 32
+        System.out.println("Second Highest Number: " + secondHighest);
+    }
 
-Second Highest is:31
+    public static int findSecondHighest(ArrayList<Integer> list) {
+        if (list.size() < 2) {
+            throw new IllegalArgumentException("List should contain at least two numbers");
+        }
 
-The highest number is: 32
+        int highest = Integer.MIN_VALUE;
+        int secondHighest = Integer.MIN_VALUE;
 
-### 117\. What is the difference between System.out, System.err, and System.in?
+        for (int number : list) {
+            if (number > highest) {
+                secondHighest = highest;
+                highest = number;
+            } else if (number > secondHighest && number != highest) {
+                secondHighest = number;
+            }
+        }
 
-System.out and System.err represent the monitor by default and thus can be used to send data or results to the monitor. System.out is used to display normal messages and results. System.eerr is used to display error messages. System.in represents InputStream object which by default represents standard input device, i.e., keyboard.
-
-### 118\. Could you provide some implementation of a Dictionary having a large number of words?
-
-The simplest implementation that can be given is that of a List wherein one can place ordered words and perform a Binary search. The other implementation with a better search performance is HashMap where the key is used as the first character of the word and the value as a LinkedList.
-
-Up another level, there are HashMaps like:
-
-hashmap {
-
-a (key) -> hashmap (key-aa , value (hashmap(key-aaa,value)
-
-b (key) -> hashmap (key-ba , value (hashmap(key-baa,value)
-
-z (key) -> hashmap (key-za , value (hashmap(key-zaa,value)
-
+        return secondHighest;
+    }
 }
+```
 
-Up to n levels where n is the average size of the word in the dictionary.
+---
+### > What is the difference between System.out, System.err, and System.in?
+
+System.out and System.err represent the monitor by default and thus can be used to send data or results to the monitor. System.out is used to display normal messages and results. System.err is used to display error messages. System.in represents InputStream object which by default represents standard input device, i.e., keyboard.
+
+---
+### > Could you provide some implementation of a Dictionary having a large number of words?
+
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Dictionary {
+    public static void main(String[] args) {
+        // Create and populate the dictionary
+        HashMap<String, String> dictionary = createDictionary();
+
+        // Look up words and display their definitions
+        lookupAndDisplay(dictionary, "apple");
+        lookupAndDisplay(dictionary, "banana");
+        lookupAndDisplay(dictionary, "chocolate");
+    }
+
+    public static HashMap<String, String> createDictionary() {
+        HashMap<String, String> dictionary = new HashMap<>();
+
+        // Populate the dictionary with words and their definitions
+        dictionary.put("apple", "a round fruit with red, green, or yellow skin");
+        dictionary.put("banana", "a long curved fruit with a yellow skin");
+        dictionary.put("chocolate", "a sweet food made from cacao beans");
+
+        // Add more words and definitions here...
+
+        return dictionary;
+    }
+
+    public static void lookupAndDisplay(Map<String, String> dictionary, String word) {
+        String definition = dictionary.get(word);
+        if (definition != null) {
+            System.out.println(word + ": " + definition);
+        } else {
+            System.out.println(word + " not found in the dictionary.");
+        }
+    }
+}
+```
 
 ### 119\. How would you tackle it if you might have to encounter pattern programs in Java?
 
