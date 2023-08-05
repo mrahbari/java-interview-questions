@@ -771,7 +771,7 @@ class Main {
 ---
 ### > Comment on method overloading and overriding by citing relevant examples.
 
-*** Method Overloading:***
+***Method Overloading:***
 Method overloading refers to the practice of defining multiple methods in the same class with the same name but different parameter lists. Overloaded methods have different parameter types, order, or number of parameters.
 
 Example of method overloading:
@@ -786,7 +786,7 @@ public class MathOperations {
     }
 }
 ```
-*** Method Overriding:***
+***Method Overriding:***
 Method overriding occurs when a subclass provides a specific implementation for a method that is already defined in its superclass. The overriding method must have the same method signature (name, return type, and parameter list) as the overridden method in the superclass.
 
 Example of method overriding:
@@ -813,7 +813,6 @@ Here's a brief comparison:
 | Decision | Decided at compile-time (static polymorphism). | Decided at runtime (dynamic polymorphism). |
 
 Both method overloading and overriding are important concepts in Java's object-oriented programming, and they provide flexibility and extensibility in designing and structuring your classes and their behavior.
-
 
 ---
 ### > A single try block and multiple catch blocks can co-exist in a Java Program. Explain.
@@ -903,15 +902,75 @@ class MyClass {
 ```
 
 ---
-### 125\. When can you use the "super" keyword?
+### > When can you use the "super" keyword?
 
 Basically, the super keyword is used to refer to the parent class. When there are the same fields in both parent and child classes, then one can use a super keyword to access data members of the parent class.
 
-### 126\. What are shallow copy and deep copy in Java?
+In brief, you can use the `super` keyword in Java to:
+1. Access fields and methods of the parent class from the subclass.
+2. Call the constructor of the parent class from the subclass constructor.
+3. Prevent method hiding by explicitly calling the parent class's static methods.
+4. Invoke overridden methods from the parent class in the subclass.
 
-In the case of a shallow copy, primitive data types are copied, whereas in the case of a deep copy along with primitive data types the object references are also copied.
+The `super` keyword is essential for managing the relationships between classes in an inheritance hierarchy.
 
-### 127\. Using relevant properties highlight the differences between interfaces and abstract classes.
+---
+### > What are shallow copy and deep copy in Java?
+
+In Java, shallow copy and deep copy refer to two different approaches to copying objects, especially when dealing with complex objects that may contain references to other objects. Let's explore each concept:
+
+1. **Shallow Copy:**
+A shallow copy creates a new object and then copies the non-static fields of the current object to the new object. If the field is a primitive type, it copies the actual value. If the field is a reference type (like an object), the reference to the original object is copied, not the actual object itself. In other words, the copied object points to the same objects as the original object, instead of creating new instances of the referenced objects.
+
+Shallow copies are relatively straightforward and efficient to create but may lead to unintended sharing of objects between the original and copied instances.
+
+2. **Deep Copy:**
+A deep copy, on the other hand, creates a new object and recursively copies all the fields of the original object along with the objects referenced by those fields. In other words, it creates completely independent copies of both the original object and all the objects it references, down to the deepest level.
+
+Deep copies ensure that the copied object and all its contained objects are completely independent, eliminating the risk of unintended object sharing. However, creating deep copies can be more complex and resource-intensive, especially when dealing with complex object graphs.
+
+Here's a simple example to illustrate shallow copy and deep copy:
+
+```java
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+}
+
+class Person {
+    String name;
+    Address address;
+
+    Person(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+}
+```
+
+Imagine you have instances of `Person` and `Address`, and you want to create copies:
+
+```java
+// Shallow copy
+Person originalPerson = new Person("Alice", new Address("New York"));
+Person shallowCopy = originalPerson; // shallow copy, both point to the same objects
+
+// Deep copy
+Person originalPerson = new Person("Alice", new Address("New York"));
+Person deepCopy = new Person(originalPerson.name, new Address(originalPerson.address.city));
+```
+
+In the shallow copy, `shallowCopy` and `originalPerson` point to the same `Person` and `Address` objects. In the deep copy, a new `Person` and a new `Address` object are created, resulting in completely independent copies.
+
+When deciding between shallow copy and deep copy, consider the relationships between objects, performance considerations, and the level of independence you need between the original and copied instances.
+
+
+
+---
+### > Using relevant properties highlight the differences between interfaces and abstract classes.
 
 An abstract class can have a combination of both abstract and non-abstract methods, whereas an interface has only abstract methods in it.
 
