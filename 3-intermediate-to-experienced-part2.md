@@ -473,61 +473,304 @@ The main objectives of garbage collection are:
 
 Because of security, synchronization, concurrency, caching, and class loading, the String is immutable in Java. The reason for making string final would be to destroy its immutability and help stop others from trying to extend it. String objects are cached in the String pool, making them immutable.
 
-### 143\. Which of the below generates a compile-time error? State the reason.
+```java
+public class ImmutableStringExample {
+    public static void main(String[] args) {
+        String originalString = "Hello, World!"; // Original string
 
-int\[\] n1 = new int\[0\];
+        // Creating a new string by concatenating
+        String modifiedString = originalString + " Welcome!";
 
-boolean\[\] n2 = new boolean\[-200\];
+        System.out.println("Original String: " + originalString);     // Output: Original String: Hello, World!
+        System.out.println("Modified String: " + modifiedString);     // Output: Modified String: Hello, World! Welcome!
+    }
+}
+```
 
-double\[\] n3 = new double\[2241423798\];
+---
+### > Which of the below generates a compile-time error? State the reason.
 
-char\[\] ch = new char\[20\];
+```java
+int[] n1 = new int[0];
+boolean[] n2 = new boolean[-200];      //The reason for the error is that the size of an array must be a non-negative integer. 
+double[] n3 = new double[2241423798];
+char[] ch = new char[20];
+```
+Let's go through each declaration one by one to see if they generate a compile-time error and the reasons why:
 
-We get a compile-time error in line 3. The error we will get in Line 3 is - the integer number too large. It is because the array requires size as an integer.  And Integer takes 4 Bytes in the memory. And the number (2241423798) is beyond the capacity of the integer. The maximum array size we can declare is - (2147483647).
+1. `int[] n1 = new int[0];`
+   This declaration is valid and does not generate a compile-time error. It creates an array of integers with zero elements. While it's not common to create arrays of size 0, it is still allowed in Java.
 
-Because the array requires the size in integer, none of the lines (1, 2, and 4) will give a compile-time error. The program will compile fine. But we get the runtime exception in line 2. The exception is - NegativeArraySizeException. 
+2. `boolean[] n2 = new boolean[-200];`
+   This declaration will generate a compile-time error. The reason is that the array size must be a non-negative integer. Negative array sizes are not allowed, as arrays cannot have a negative number of elements.
 
-Here what will happen is - At the time when JVM will allocate the required memory during runtime then it will find that the size is negative. And the array size can’t be negative. So the JVM will throw the exception.
+3. `double[] n3 = new double[2241423798];`
+   This declaration is valid and does not generate a compile-time error. It creates an array of doubles with a very large number of elements. The size of the array is within the allowed range of array indices.
 
+4. `char[] ch = new char[20];`
+   This declaration is valid and does not generate a compile-time error. It creates an array of characters with 20 elements.
 
+To summarize:
 
-### 144\. How would you differentiate between a String, StringBuffer, and a StringBuilder?
+- Declaration 1 is valid. It creates an array of size 0.
+- Declaration 2 generates a compile-time error due to a negative array size.
+- Declaration 3 is valid. It creates an array of doubles with a large size.
+- Declaration 4 is valid. It creates an array of characters with a size of 20.
 
-The string class is immutable but the other two are mutable in nature. StringBuffer is synchronous whereas the StringBuilder is asynchronous. String uses string pool as memory storage whereas the other two use heap memory for storage purposes.
+---
+### > How would you differentiate between a String, StringBuffer, and a StringBuilder?
+In general, if you don't need to modify the content of the character sequence after creation, using `String` is efficient. If you need to perform a lot of string manipulation, especially in a loop or within a method, consider using `StringBuilder` for better performance, unless thread safety is a concern, in which case you would opt for `StringBuffer`.
+Here's a differentiation between them:
 
-### 145\. What is a Comparator in Java?
+1. **String:**
+   - Immutable: Strings in Java are immutable, which means their values cannot be changed after creation.
+   - Concatenation: When you concatenate strings using the `+` operator or the `concat()` method, a new string object is created.
+   - Thread-Safe: Strings are thread-safe because their immutability guarantees that they cannot be modified after creation, making them safe for use in multi-threaded environments.
+   - Example:
+     ```java
+     String str = "Hello";
+     str = str + " World"; // Creates a new string object
+     ```
 
-A comparator is an interface, which is used to sort the objects. 
+2. **StringBuffer:**
+   - Mutable: StringBuffer is mutable, allowing you to modify its content without creating a new object.
+   - Synchronization: StringBuffer methods are synchronized, making them safe for use in multi-threaded environments where multiple threads might access or modify the same object concurrently.
+   - Slower Performance: Due to synchronization, StringBuffer can be slower in single-threaded scenarios compared to StringBuilder.
+   - Example:
+     ```java
+     StringBuffer sb = new StringBuffer("Hello");
+     sb.append(" World"); // Modifies the same object
+     ```
 
-### 146\. In Java, static as well as private method overriding is possible. Comment on the statement.
+3. **StringBuilder:**
+   - Mutable: Like StringBuffer, StringBuilder is also mutable, allowing you to modify its content without creating a new object.
+   - Not Synchronized: StringBuilder methods are not synchronized, which makes it more efficient in single-threaded scenarios compared to StringBuffer.
+   - Better Performance: In most cases, StringBuilder provides better performance compared to StringBuffer due to the absence of synchronization.
+   - Example:
+     ```java
+     StringBuilder sb = new StringBuilder("Hello");
+     sb.append(" World"); // Modifies the same object
+     ```
+
+Choosing between `StringBuffer` and `StringBuilder` depends on the context:
+- If you're working in a single-threaded environment or handling synchronization manually, `StringBuilder` is typically preferred due to its better performance.
+- If you're working in a multi-threaded environment and need thread safety, `StringBuffer` should be used.
+
+---
+### > What is a Comparator in Java?
+
+In Java, a Comparator is an interface that allows you to define a custom comparison logic for sorting objects that don't have a natural ordering or for defining an alternative ordering for objects that do have a natural ordering.
+
+The Comparator interface is part of the java.util package and contains a single method, compare(), which is used to compare two objects. The compare() method returns a negative integer, zero, or a positive integer based on the comparison of the two objects. These values indicate whether the first object is less than, equal to, or greater than the second object, respectively.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+class Student {
+    String name;
+    int age;
+
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+public class ComparatorExample {
+    public static void main(String[] args) {
+        List<Student> students = new ArrayList<>();
+        students.add(new Student("Alice", 20));
+        students.add(new Student("Bob", 18));
+        students.add(new Student("Charlie", 22));
+
+        // Sorting students by age using a Comparator
+        Collections.sort(students, new Comparator<Student>() {
+            public int compare(Student s1, Student s2) {
+                return Integer.compare(s1.age, s2.age);
+            }
+        });
+
+        // Displaying sorted students
+        for (Student student : students) {
+            System.out.println(student.name + " - " + student.age);
+        }
+    }
+}
+```
+
+---
+### > In Java, static as well as private method overriding is possible. Comment on the statement.
 
 In Java, you could indeed override a private or static method. If you create a similar method in a child class with the same return type and method arguments, it will hide the super class method; this is known as method hiding. Similarly, you cannot override a private method in a subclass because it is not accessible from that.
 
-### 147\. What makes a HashSet different from a TreeSet?
+1. **Static Method Overriding:** Static methods are associated with the class itself, rather than with instances of the class. When a subclass defines a static method with the same signature as a static method in the superclass, it is not considered as method overriding. Instead, it's called method hiding. The behavior of static methods in Java is determined at compile-time based on the reference type, not at runtime based on the actual object being referred to. Therefore, a subclass static method does not override a superclass static method.
 
-In a HashSet, the elements are unsorted and work faster than a Tree set.  It is implemented using a hash table.
+2. **Private Method Overriding:** Private methods in a class are not accessible outside that class, including its subclasses. Since overriding involves providing a new implementation for a method in a subclass, it requires the method in the superclass to be accessible to the subclass. Private methods are not inherited by subclasses, so they cannot be overridden by subclass methods.
 
-### 148\. Why is the character array preferred over string for storing confidential information?
+Here's a brief example to illustrate these points:
 
-Because Strings are immutable, any change will result in the creation of a new String, whereas char\[\] allows you to set all of the elements to blank or zero. So storing a password in a character array clearly reduces the security risk of password theft.
+```java
+class Superclass {
+    static void staticMethod() {
+        System.out.println("Superclass static method");
+    }
 
-### 149\. What are the differences between HashMap and HashTable in Java?
+    private void privateMethod() {
+        System.out.println("Superclass private method");
+    }
+}
 
-HashMap
+class Subclass extends Superclass {
+    // This is method hiding, not overriding
+    static void staticMethod() {
+        System.out.println("Subclass static method");
+    }
 
-HashTable
+    // Cannot override private method from Superclass
+    // private void privateMethod() {
+    //     System.out.println("Subclass private method");
+    // }
+}
 
-1\. Asynchronous in nature
+public class MethodOverrideExample {
+    public static void main(String[] args) {
+        Superclass.staticMethod(); // Output: Superclass static method
+        Subclass.staticMethod();   // Output: Subclass static method
 
-1\. Synchronous in nature
+        // Cannot call privateMethod() from Subclass
+        // Compilation error: privateMethod() has private access in Superclass
+        // Subclass subclass = new Subclass();
+        // subclass.privateMethod();
+    }
+}
+```
 
-2\. Not thread-safe
+In the above example, `staticMethod` demonstrates method hiding, and the attempt to override `privateMethod` in the `Subclass` results in a compilation error.
 
-2\. Thread safe
+To summarize:
+- Static method overriding is not possible, and subclass static methods simply hide superclass static methods.
+- Private methods cannot be overridden because they are not accessible to subclasses.
 
-3\. It allows one null key and null values
+---
+### > What makes a HashSet different from a TreeSet?
 
-3\. It doesn’t allow null keys and values.
+Both `HashSet` and `TreeSet` are implementations of the `Set` interface in Java, but they have some key differences in terms of their characteristics and behavior:
+
+1. **Internal Data Structure:**
+   - `HashSet`: Uses a hash table to store elements. It provides constant-time average complexity for basic operations (add, remove, contains), assuming a good hash function and uniform distribution of elements.
+   - `TreeSet`: Uses a Red-Black Tree (a self-balancing binary search tree) to store elements. This tree structure maintains elements in a sorted order, which affects the performance characteristics.
+
+2. **Ordering:**
+   - `HashSet`: Does not guarantee any specific order of elements. Elements are stored based on their hash codes and may be iterated in an arbitrary order.
+   - `TreeSet`: Maintains elements in a sorted order according to their natural ordering (if they implement the `Comparable` interface) or based on a specified comparator.
+
+3. **Performance:**
+   - `HashSet`: Generally offers better performance for add, remove, and contains operations in comparison to `TreeSet`, especially for larger sets. These operations have an average time complexity of O(1) due to hash table optimizations.
+   - `TreeSet`: Offers slightly slower performance for add, remove, and contains operations compared to `HashSet`. These operations have a time complexity of O(log n) due to the self-balancing tree structure.
+
+4. **Use Cases:**
+   - `HashSet`: Ideal for scenarios where you want to quickly add, remove, and check for element existence, and where element order is not important.
+   - `TreeSet`: Useful when you need elements to be sorted in a specific order or when you want to use a custom sorting criterion. It's also suitable when you need to retrieve elements in a range (subsets) efficiently.
+
+5. **Custom Ordering:**
+   - `HashSet`: Does not support custom ordering of elements.
+   - `TreeSet`: Supports custom ordering either by providing a comparator during TreeSet creation or by implementing the `Comparable` interface in the element class.
+
+6. **Null Elements:**
+   - `HashSet`: Allows at most one null element.
+   - `TreeSet`: Does not allow null elements.
+
+Here's a simple example to demonstrate the difference between `HashSet` and `TreeSet`:
+
+```java
+import java.util.HashSet;
+import java.util.TreeSet;
+
+public class SetExample {
+    public static void main(String[] args) {
+        HashSet<Integer> hashSet = new HashSet<>();
+        hashSet.add(3);
+        hashSet.add(1);
+        hashSet.add(2);
+
+        System.out.println("HashSet: " + hashSet);
+
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        treeSet.add(3);
+        treeSet.add(1);
+        treeSet.add(2);
+
+        System.out.println("TreeSet: " + treeSet);
+    }
+}
+```
+
+In this example, `HashSet` outputs elements in an arbitrary order, while `TreeSet` outputs elements in sorted order.
+
+---
+### > Why is the character array preferred over string for storing confidential information?
+Because Strings are immutable, any change will result in the creation of a new String, whereas char[] allows you to set all of the elements to blank or zero. So storing a password in a character array clearly reduces the security risk of password theft.
+
+---
+### > What are the differences between HashMap and HashTable in Java?
+Both `HashMap` and `HashTable` in Java are used to store key-value pairs, but there are several differences between them in terms of features, behavior, and usage. Here's a comparison of `HashMap` and `HashTable`:
+
+1. **Null Values:**
+   - `HashMap`: Allows one null key and multiple null values. In other words, one key can be associated with at most one null value, and multiple keys can be associated with null values.
+   - `HashTable`: Does not allow null keys or values. Attempting to insert a null key or value will result in a `NullPointerException`.
+
+2. **Synchronization:**
+   - `HashMap`: Is not synchronized by default. It is not thread-safe and may lead to inconsistent behavior in multithreaded environments. You can achieve synchronization using `Collections.synchronizedMap()` to wrap a `HashMap`.
+   - `HashTable`: Is synchronized, meaning it is thread-safe by default. This comes with a performance cost in single-threaded scenarios.
+
+3. **Performance:**
+   - `HashMap`: Generally offers better performance in single-threaded scenarios due to lack of synchronization. Operations such as `get`, `put`, and `remove` have an average time complexity of O(1).
+   - `HashTable`: May exhibit slower performance due to synchronization overhead in multithreaded scenarios. Operations have an average time complexity of O(1) as well.
+
+4. **Iterating Order:**
+   - `HashMap`: Does not guarantee any specific order of elements during iteration. The order may be arbitrary.
+   - `HashTable`: Also does not guarantee any specific order of elements during iteration, similar to `HashMap`.
+
+5. **Subclasses:**
+   - `HashMap`: Extends the `AbstractMap` class and implements the `Map` interface.
+   - `HashTable`: Extends the `Dictionary` class and implements the `Map` interface.
+
+6. **Usage in Modern Java:**
+   - `HashMap`: Is generally preferred over `HashTable` in modern Java applications due to better performance and the ability to synchronize externally when needed. It is recommended to use `ConcurrentHashMap` for improved concurrency control.
+   - `HashTable`: Is considered somewhat outdated and is less commonly used in modern Java applications due to its synchronization overhead.
+
+Here's a simple example to demonstrate the differences between `HashMap` and `HashTable`:
+
+```java
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+
+public class MapExample {
+    public static void main(String[] args) {
+        // HashMap allows null values
+        Map<String, String> hashMap = new HashMap<>();
+        hashMap.put(null, "Value");
+        hashMap.put("Key", null);
+        hashMap.put(null, null); // Overwrites the previous value
+
+        // HashTable does not allow null keys or values
+        Hashtable<String, String> hashTable = new Hashtable<>();
+        // hashTable.put(null, "Value"); // Throws NullPointerException
+        // hashTable.put("Key", null);    // Throws NullPointerException
+        // hashTable.put(null, null);     // Throws NullPointerException
+
+        System.out.println("HashMap: " + hashMap);
+        System.out.println("HashTable: " + hashTable);
+    }
+}
+```
+
+In this example, `HashMap` allows null keys and values, whereas `HashTable` throws `NullPointerException` when attempting to insert null keys or values.
+
 
 ### 150\. What is the importance of reflection in Java?
 
@@ -565,59 +808,192 @@ It is an abstract machine that provides a runtime environment for Java programs 
 
 Java's 'write once and run anywhere' nature is achieved by using Java Virtual Machine (JVM) and bytecode. Java code is compiled into bytecode, which can be executed on any platform that has a JVM installed. 
 
-### 159\. What are the advantages of Packages in Java?
-
+---
+### > What are the advantages of Packages in Java?
 Packages in Java provide a way to organize classes and interfaces into namespaces. This helps to avoid naming conflicts and makes it easier to manage large codebases. Packages provide a way to create reusable code through the use of libraries.
 
-### 160\. Explain static variables with examples and a diagram.
+---
+### > Explain static variables with examples.
 
-A static variable in Java is a variable that is associated with the class rather than an instance of the class. This means that all instances of the class share the same static variable. They are declared using the static keyword.
+In Java, a static variable (also known as a class variable) is a variable that belongs to the class itself rather than to instances of the class. This means that all instances of the class share the same static variable. Static variables are declared using the `static` keyword and are initialized only once, when the class is loaded into memory.
 
-public class Example {
+Static variables are often used to store values that are shared among instances of a class, such as constants, configuration settings, or counters that track the number of instances created. It's important to note that changes to static variables are visible across all instances, so proper synchronization should be considered when dealing with multithreaded scenarios.
 
-    static int count = 0;
+Key characteristics of static variables:
 
-    public Example() {
+1. **Shared Among Instances:** All instances of the class share the same value of a static variable. If one instance modifies the value, it will affect the value for all other instances as well.
 
-        count++;
+2. **Accessed Using Class Name:** Static variables are accessed using the class name, followed by the dot operator.
 
-    }
+3. **Memory Location:** Static variables are stored in a single memory location associated with the class, rather than being duplicated for each instance.
 
+Here's an example that demonstrates the concept of static variables:
+
+```java
+public class StaticVariableExample {
+    static int instanceCount = 0; // Static variable shared among instances
+
+    String name;
+
+    public StaticVariableExample(String name) {
+        this.name = name;
+        instanceCount++; // Incrementing the static variable
+    }
+
+    public static void main(String[] args) {
+        StaticVariableExample obj1 = new StaticVariableExample("Instance 1");
+        StaticVariableExample obj2 = new StaticVariableExample("Instance 2");
+        StaticVariableExample obj3 = new StaticVariableExample("Instance 3");
+
+        System.out.println("Instance count: " + instanceCount); // Output: Instance count: 3
+    }
 }
+```
 
-**Diagram -** The diagram below illustrates the relationship between the class and the static variable:
+---
+### > Explain static block
+In Java, a static block, also known as a static initialization block, is a special block of code that is used to initialize static variables or perform other one-time tasks when a class is loaded into memory. Static blocks are executed only once, when the class is first loaded, before any other code in the class is executed.
 
-          +----------+
+The syntax for a static block is as follows:
+```java
+static {
+    // Code to initialize static variables or perform other tasks
+}
+```
 
-Example | count=0 |
+Key points about static blocks:
 
-          +----------+
+1. **Execution Timing:** Static blocks are executed when the class is loaded by the Java Virtual Machine (JVM), before any instance of the class is created or any static method is called.
 
-          | |
+2. **Initialization of Static Variables:** Static blocks are often used to initialize static variables that require more complex initialization logic than simple assignment.
 
-Instance1 | |
+3. **No Direct Invocation:** Static blocks are automatically executed by the JVM and cannot be called directly like methods.
 
-          +----------+
+4. **Order of Execution:** If there are multiple static blocks in a class, they are executed in the order they appear in the source code.
 
-          | |
+5. **Exception Handling:** Static blocks can throw exceptions, but it's important to handle exceptions properly because any unhandled exceptions thrown during static block execution can prevent the class from being loaded.
 
-Instance2 | |
+Here's an example of using a static block to initialize a static variable:
 
-          +----------+
+```java
+public class StaticBlockExample {
+    static int count;
 
-### 161\. Explain static block
+    static {
+        System.out.println("Static block is executed.");
+        count = 10;
+    }
 
-A static block in Java is a block of code that is executed when the class is loaded into memory. Static blocks are enclosed in curly braces and are marked with the static keyword. 
+    public static void main(String[] args) {
+        System.out.println("Count: " + count);
+    }
+}
+```
 
-### 162\. Difference between static (class) method and instance method
+In this example, the static block initializes the `count` variable with the value `10`. When you run the `main` method, the static block is executed first, followed by the output of the `count` variable.
 
-The main difference between a static method and an instance method in Java is that a static method is associated with the class, while an instance method is associated with an instance of the class. 
+Static blocks are especially useful when you need to perform one-time setup tasks, such as loading resources or initializing static variables that require more complex calculations or external data.
 
-### 163\. How can constructor chaining be done using this keyword?
+
+---
+### > Difference between static (class) method and instance method
+In Java, there are two main types of methods: static (class) methods and instance methods. They have distinct characteristics and use cases:
+
+1. **Static (Class) Method:**
+   - Defined using the `static` keyword in the method signature.
+   - Belongs to the class itself, not to instances of the class.
+   - Can be called using the class name directly, without creating an instance of the class.
+   - Cannot access instance variables or instance methods directly (unless they are accessed through an instance reference).
+   - Can access only static members (variables and methods) of the class.
+   - Used for utility methods, operations that don't depend on instance-specific data, and for encapsulating logic that is related to the class as a whole.
+   - Example:
+     ```java
+     class MathUtils {
+         static int add(int a, int b) {
+             return a + b;
+         }
+     }
+     int sum = MathUtils.add(5, 3); // Calling the static method
+     ```
+
+2. **Instance Method:**
+   - Not defined with the `static` keyword in the method signature.
+   - Belongs to instances of the class and operates on the data associated with those instances.
+   - Must be called using an instance of the class.
+   - Can access both static members and instance members (variables and methods) of the class.
+   - Allows direct interaction with instance-specific data and state.
+   - Used for operations that are specific to individual instances and depend on their internal state.
+   - Example:
+     ```java
+     class Person {
+         String name;
+         
+         void greet() {
+             System.out.println("Hello, my name is " + name);
+         }
+     }
+     Person person = new Person();
+     person.name = "Alice";
+     person.greet(); // Calling the instance method
+     ```
+
+In summary, static methods are associated with the class itself and are shared among all instances, whereas instance methods are associated with individual instances and can access instance-specific data. The choice between static and instance methods depends on the nature of the operation you want to perform and whether it involves class-level behavior or instance-level behavior.
+
+---
+### > How can constructor chaining be done using this keyword?
 
 It is the process of calling one constructor from another constructor in the same class. This can be achieved using this keyword.
+```java
+public class Person {
+    private String name;
+    private int age;
 
-### 164\. Which class is the superclass for all the classes?
+    // Constructor with two parameters
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Constructor with only name parameter (delegates to the two-parameter constructor)
+    public Person(String name) {
+        this(name, 0); // Call the two-parameter constructor with default age
+    }
+
+    // Constructor with only age parameter (delegates to the two-parameter constructor)
+    public Person(int age) {
+        this("Unknown", age); // Call the two-parameter constructor with default name
+    }
+
+    // Default constructor (delegates to the two-parameter constructor)
+    public Person() {
+        this("Unknown", 0); // Call the two-parameter constructor with default name and age
+    }
+
+    // Getter methods
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public static void main(String[] args) {
+        Person person1 = new Person("Alice", 25);
+        Person person2 = new Person("Bob");
+        Person person3 = new Person(30);
+        Person person4 = new Person();
+
+        System.out.println(person1.getName() + " - " + person1.getAge()); // Output: Alice - 25
+        System.out.println(person2.getName() + " - " + person2.getAge()); // Output: Bob - 0
+        System.out.println(person3.getName() + " - " + person3.getAge()); // Output: Unknown - 30
+        System.out.println(person4.getName() + " - " + person4.getAge()); // Output: Unknown - 0
+    }
+}
+```
+
+---
+### > Which class is the superclass for all the classes?
 
 The Object class is the only superclass for all classes in Java.
 
