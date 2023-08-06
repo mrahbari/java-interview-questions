@@ -17,7 +17,6 @@ Benefits of using generics:
 4. Better code documentation: Using generics adds clarity to the code by explicitly stating the types that a class or method is designed to work with.
 
 Sample code demonstrating the use of generics:
-
 Let's create a simple generic class called `Box`, which can store an object of any type:
 
 ```java
