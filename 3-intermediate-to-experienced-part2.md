@@ -372,7 +372,7 @@ In languages like Java, encapsulation is achieved through the use of access modi
 Equality operator (==) is used to check the equality condition between two variables. But the equals() method is used to check the equality condition between two objects.
 
 ---
-### 136\. How is an infinite loop declared in Java?
+### > How is an infinite loop declared in Java?
 
 An infinite loop can be declared in Java by breaking the logic in the instruction block.  For example,
 ```java
@@ -384,30 +384,92 @@ for(int i = 1; i > 0; i++)
 
 The above code forms an infinite loop in Java.
 
-### 137\. Briefly explain the concept of constructor overloading
-
-The concept of constructor overloading refers to having multiple methods in a class with their name being the same as the class name. The difference lies in the set of parameters passed to the functions.
-
-### 138\. Explain the use of the final keyword in variable, method and class.
-
-In Java, one can apply the final keyword to a variable, methods, and class. With the help of the final keyword, the variable turns out to be a constant, the method cannot be inherited and the class cannot be overridden.
-
-### 139\. Is it possible that the ‘finally' block will not be executed? If yes then list the case.
-
-Yes, there is a possibility that the ‘finally’ block cannot get executed. Here are some of the cases where the above situation occurs.
-
-1.  During the time of fatal errors such as memory exhaustion, memory access error, etc.
-2.  During the time of using System.exit()
-
-### 140\. Difference between static methods, static variables, and static classes in Java.
+---
+### > Difference between static methods, static variables, and static classes in Java.
 
 A variable, method, or class can be made static by using the static keyword. A static class cannot be instantiated. When both objects or instances of a class share the same variables, this is referred to as static variables. Static methods are simply methods that refer to the class in which they are written.
+In Java, the term "static" is used to define elements (methods, variables, and classes) that belong to the class itself rather than an instance of the class. Let's explore the differences between static methods, static variables, and static classes:
 
-### 141\. What is the main objective of garbage collection?
+1. **Static Methods:**
+   - A static method is a method that belongs to the class rather than an instance of the class.
+   - It can be called using the class name without creating an instance of the class.
+   - Static methods can access only other static members (variables and methods) of the class and cannot access instance-specific members.
+   - Static methods are commonly used for utility functions or operations that don't require access to instance-specific data.
+   - Example:
+     ```java
+     public class MathUtils {
+         public static int add(int a, int b) {
+             return a + b;
+         }
+     }
+     // Usage:
+     int sum = MathUtils.add(5, 3);
+     ```
+
+2. **Static Variables:**
+   - A static variable (also known as a class variable) is a variable that is associated with the class rather than individual instances of the class.
+   - All instances of the class share the same static variable.
+   - Static variables are initialized when the class is loaded and are accessible using the class name.
+   - They are typically used to store constants or shared data among instances of the class.
+   - Example:
+     ```java
+     public class Counter {
+         public static int count = 0;
+         
+         public Counter() {
+             count++;
+         }
+     }
+     // Usage:
+     Counter c1 = new Counter();
+     Counter c2 = new Counter();
+     System.out.println(Counter.count); // Output: 2
+     ```
+
+3. **Static Classes:**
+   - In Java, classes can be defined as static nested classes or inner classes.
+   - A static nested class is a nested class that doesn't require an instance of the outer class to be instantiated.
+   - It is typically used to logically group related classes together within a single outer class.
+   - Static nested classes can have both static and non-static members.
+   - Example:
+     ```java
+     public class OuterClass {
+         // Static nested class
+         public static class InnerStaticClass {
+             // ...
+         }
+         
+         // Non-static nested class (inner class)
+         public class InnerClass {
+             // ...
+         }
+     }
+     ```
+
+```java
+//usage:
+OuterClass.InnerStaticClass nestedObj = new OuterClass.InnerStaticClass();
+```
+In summary, static methods, static variables, and static classes all pertain to the class itself rather than instances of the class. They are used for various purposes, such as utility methods, shared data, or organizing related classes.
+
+---
+### > What is the main objective of garbage collection?
 
 The main goal of using garbage collection is to free the heap memory by eliminating unnecessary objects.
 
-### 142\. Apart from the security aspect, what are the reasons behind making strings immutable in Java?
+The main objectives of garbage collection are:
+```
+1. Reclaiming memory occupied by unreferenced objects.
+2. Simplifying memory management for developers.
+3. Preventing memory leaks.
+4. Avoid dangling pointers.
+5. Improving program performance.
+6. Enabling dynamic memory allocation and release.
+7. Providing predictable program behavior.
+8. Enhancing language stability and robustness.
+```
+---
+### > Apart from the security aspect, what are the reasons behind making strings immutable in Java?
 
 Because of security, synchronization, concurrency, caching, and class loading, the String is immutable in Java. The reason for making string final would be to destroy its immutability and help stop others from trying to extend it. String objects are cached in the String pool, making them immutable.
 
@@ -426,6 +488,8 @@ We get a compile-time error in line 3. The error we will get in Line 3 is - the 
 Because the array requires the size in integer, none of the lines (1, 2, and 4) will give a compile-time error. The program will compile fine. But we get the runtime exception in line 2. The exception is - NegativeArraySizeException. 
 
 Here what will happen is - At the time when JVM will allocate the required memory during runtime then it will find that the size is negative. And the array size can’t be negative. So the JVM will throw the exception.
+
+
 
 ### 144\. How would you differentiate between a String, StringBuffer, and a StringBuilder?
 
