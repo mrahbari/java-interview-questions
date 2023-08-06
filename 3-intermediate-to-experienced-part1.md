@@ -44,7 +44,6 @@ In the above example, the `super.makeSound()` call is used to invoke the `makeSo
 
 You cannot use `this` and `super` together because their functionalities are different and do not overlap. Attempting to do so would result in a compilation error.
 
-
 ---
 ### > What is JDBC?
 
