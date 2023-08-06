@@ -771,42 +771,81 @@ public class MapExample {
 
 In this example, `HashMap` allows null keys and values, whereas `HashTable` throws `NullPointerException` when attempting to insert null keys or values.
 
-
-### 150\. What is the importance of reflection in Java?
+---
+### > What is the importance of reflection in Java?
 
 Reflection is a property of Java, enabling the Java code to inspect itself. A Java class, for example, can get the names of all its members and showcase them.
+Reflection in Java is a powerful and advanced feature that allows a program to examine or introspect its own structure, as well as manipulate or modify the behavior of classes, objects, methods, and fields at runtime. It provides a way to analyze and interact with the internal elements of a Java program without knowing their names at compile time. Reflection is mainly achieved through the java.lang.reflect package.
 
-### 151\. What are the different types of Thread Priorities in Java? And what is the default priority of a thread assigned by JVM?
+```java
+import java.lang.reflect.*;
 
-There are different types of thread properties in Java. They are MIN\_PRIORITY, MAX\_PRIORITY, and NORM\_PRIORITY. By default, the thread is assigned NORM\_PRIORITY.
+class MyClass {
+    private String message;
 
-### 152\. What is the ‘IS-A ‘ relationship in OOPs Java?
+    public MyClass(String message) {
+        this.message = message;
+    }
+
+    public void displayMessage() {
+        System.out.println("Message: " + message);
+    }
+}
+
+public class ReflectionExample {
+    public static void main(String[] args) throws Exception {
+        // Get the class object using reflection
+        Class<?> myClass = Class.forName("MyClass");
+
+        // Create an instance of the class using reflection
+        Constructor<?> constructor = myClass.getConstructor(String.class);
+        Object instance = constructor.newInstance("Hello, Reflection!");
+
+        // Invoke a method using reflection
+        Method method = myClass.getMethod("displayMessage");
+        method.invoke(instance);
+    }
+}
+```
+
+---
+### > What are the different types of Thread Priorities in Java? And what is the default priority of a thread assigned by JVM?
+In Java, threads are scheduled for execution based on their priority levels. Thread priorities are represented by integer values, and Java defines thread priorities using constants in the `Thread` class. The priority values range from `Thread.MIN_PRIORITY` (1) to `Thread.MAX_PRIORITY` (10), with `Thread.NORM_PRIORITY` (5) being the default priority.
+
+The different thread priorities in Java are:
+
+1. **Thread.MIN_PRIORITY (1):** The lowest priority. Threads with this priority are scheduled last and are often used for background or maintenance tasks that should not interfere with the main application's performance.
+
+2. **Thread.NORM_PRIORITY (5):** The default priority. Threads with this priority are scheduled with a moderate level of importance. Most application threads should have this priority.
+
+3. **Thread.MAX_PRIORITY (10):** The highest priority. Threads with this priority are scheduled with the highest importance and are usually used for time-sensitive tasks or critical operations.
+
+The actual behavior of thread scheduling and priority may vary across different Java Virtual Machine (JVM) implementations and operating systems. It's important to note that thread priorities do not guarantee precise execution order, and the operating system's thread scheduler ultimately determines the order of execution.
+
+You can set a thread's priority using the `setPriority()` method:
+
+```java
+Thread thread = new Thread(runnable);
+thread.setPriority(Thread.NORM_PRIORITY);
+```
+
+By default, when a new thread is created, it inherits the priority of its parent thread. The main thread, which is the first thread started when a Java program runs, typically has a priority of `Thread.NORM_PRIORITY`.
+
+It's important to use thread priorities judiciously and to not rely solely on them for managing thread behavior. In most cases, using proper synchronization mechanisms and designing thread-safe code is more effective for controlling the execution order and coordination of threads.
+
+
+---
+### > What is the ‘IS-A’ relationship in OOPs Java?
 
 ‘IS-A’ relationship is related to the Inheritance property of OOPs Java. It is a kind of parent-child relationship that is established between two classes.
 
-### 153\. Why is Java, not a pure object-oriented language?
-
+---
+### > Why is Java, not a pure object-oriented language?
 It is not a pure object-oriented language because it supports primitive data types like int, double, and char, which are not objects, and it supports static methods and variables.
 
-### 154\. Can static methods be overridden?
-
+---
+### > Can static methods be overridden?
 No, static methods cannot be overridden in Java.
-
-### 155\. What are the different ways of thread usage?
-
-Two ways to use threads in Java one is by extending the Thread class or by implementing the Runnable interface. Another way to use threads in Java is by using the Executor framework, which provides a higher level of abstraction for managing threads. 
-
-### 156\. How do you achieve Object Cloning in Java?
-
-Creating a new object with the same state as an existing object called Object Cloning in Java. This can be achieved by implementing the Cloneable interface and overriding the clone() method in the class. 
-
-### 157\. What is a Java Virtual Machine?
-
-It is an abstract machine that provides a runtime environment for Java programs to run. The JVM interprets the compiled Java code and executes it on the underlying operating System.
-
-### 158\. What gives Java its 'write once and run anywhere' nature?
-
-Java's 'write once and run anywhere' nature is achieved by using Java Virtual Machine (JVM) and bytecode. Java code is compiled into bytecode, which can be executed on any platform that has a JVM installed. 
 
 ---
 ### > What are the advantages of Packages in Java?
